@@ -20,11 +20,11 @@ public class MainWindowViewModel {
 
     }
 
-    /*private void selectTour(Tour selectedTour){
+    private void selectTour(Tour selectedTour){
         tourDetailsViewModel.setTourModel(selectedTour);
     }
 
-    private void searchTours(String searchString){
+    /*private void searchTours(String searchString){
         var tours :List<Tour> = BL.getInstance().findMatchingTours(searchString);
         toursOverviewModel.setTours(tours);
     }*/

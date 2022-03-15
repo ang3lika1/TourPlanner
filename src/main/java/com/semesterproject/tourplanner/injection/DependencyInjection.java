@@ -14,20 +14,20 @@ import java.util.ResourceBundle;
  */
 public class DependencyInjection {
     public static Parent load(String location, Locale locale) throws IOException {
-        FXMLLoader loader = getLoader(location);
+        FXMLLoader loader = getLoader(location, locale);
         return loader.load();
     }
 
-    /*public static FXMLLoader getLoader(String location, Locale locale) {
+    public static FXMLLoader getLoader(String location, Locale locale) {
         return new FXMLLoader(
-                //DependencyInjection.class.getResource("/at/fhtw/bif/swe/medialib/view/" + location),
-                ResourceBundle.getBundle("com.semesterproject.tourplanner.view." + "gui_strings", locale),
+                DependencyInjection.class.getResource("com/semesterproject/tourplanner/" + location),
+                ResourceBundle.getBundle("com.semesterproject.tourplanner." + "gui_strings", locale),
                 new JavaFXBuilderFactory(),
                 controllerClass-> ControllerFactory.getInstance().create(controllerClass)
         );
-    }*/
-    public static FXMLLoader getLoader(String location) {
+    }
+    /*public static FXMLLoader getLoader(String location, Locale locale) {
         FXMLLoader fxmlLoader = new FXMLLoader(DependencyInjection.class.getResource("MainWindow.fxml"));
         return fxmlLoader;
-    }
+    }*/
 }
