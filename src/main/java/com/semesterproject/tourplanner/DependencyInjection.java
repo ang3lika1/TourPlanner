@@ -20,8 +20,8 @@ public class DependencyInjection {
 
     public static FXMLLoader getLoader(String location, Locale locale) {
         return new FXMLLoader(
-                DependencyInjection.class.getResource("com/semesterproject/tourplanner/" + location),
-                ResourceBundle.getBundle("com.semesterproject.tourplanner." + "gui_strings", locale),
+                DependencyInjection.class.getResource("/com/semesterproject/tourplanner/view/" + location),
+                ResourceBundle.getBundle("com.semesterproject.tourplanner.view." + "gui_strings", locale),
                 new JavaFXBuilderFactory(),
                 controllerClass-> ControllerFactory.getInstance().create(controllerClass)
         );
