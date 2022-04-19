@@ -52,9 +52,9 @@ public class TourDetailsViewModel {
             name.set("");
             return;
         }
-        System.out.println("setTourModel name=" + tourModel.getTitle());
+        System.out.println("setTourModel name=" + tourModel.getName());
         this.tour = tourModel;
-        name.setValue( tourModel.getTitle() );
+        name.setValue( tourModel.getName() );
         isInitValue = false;
     }
 

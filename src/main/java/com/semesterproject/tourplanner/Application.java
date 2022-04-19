@@ -19,6 +19,8 @@ public class Application extends javafx.application.Application {
 
         Scene scene = new Scene(root);
 
+        //TestDAO testDAO = new TestDAO();
+        //testDAO.create();
         primaryStage.setScene(scene);
         primaryStage.setTitle("Tour Planner");
         primaryStage.show();

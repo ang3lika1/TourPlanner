@@ -1,6 +1,6 @@
 package com.semesterproject.tourplanner.view;
 
-import com.semesterproject.tourplanner.GUI.models.Tour;
+import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.viewmodels.ToursOverviewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

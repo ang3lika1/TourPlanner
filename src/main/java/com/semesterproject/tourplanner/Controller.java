@@ -1,6 +1,6 @@
 package com.semesterproject.tourplanner;
 
-import com.semesterproject.tourplanner.GUI.models.Tour;
+import com.semesterproject.tourplanner.models.Tour;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
