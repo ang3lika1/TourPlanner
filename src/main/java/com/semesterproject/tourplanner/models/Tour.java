@@ -1,4 +1,4 @@
-package com.semesterproject.tourplanner.models;
+package com.semesterproject.tourplanner.GUI.models;
 
 public class Tour {
     private String title;

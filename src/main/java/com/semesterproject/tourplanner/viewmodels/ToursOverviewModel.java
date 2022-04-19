@@ -1,6 +1,6 @@
 package com.semesterproject.tourplanner.viewmodels;
 
-import com.semesterproject.tourplanner.models.Tour;
+import com.semesterproject.tourplanner.GUI.models.Tour;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

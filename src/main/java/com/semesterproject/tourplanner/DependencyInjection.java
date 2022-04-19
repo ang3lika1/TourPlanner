@@ -1,4 +1,4 @@
-package com.semesterproject.tourplanner.injection;
+package com.semesterproject.tourplanner;
 import com.semesterproject.tourplanner.view.ControllerFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
