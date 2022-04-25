@@ -1,5 +1,7 @@
 package com.semesterproject.tourplanner.viewmodels;
 
+import com.semesterproject.tourplanner.bl.TourServiceImpl;
+import com.semesterproject.tourplanner.dl.TourDAO;
 import com.semesterproject.tourplanner.models.Tour;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToursOverviewModel {
+    private static TourServiceImpl tourServiceImpl;
+
     public interface SelectionChangedListener {
         void changeSelection(Tour tour);
     }
@@ -19,12 +23,14 @@ public class ToursOverviewModel {
 
     public ToursOverviewModel()
     {
-        //setTours( DAL.getInstance().tourDao().getAll() );
+        tourServiceImpl = new TourServiceImpl();
+        setTours(TourDAO.getInstance().getAll());
     }
 
     public ObservableList<Tour> getObservableTours() {
         return observableMediaItems;
     }
+
 
     public ChangeListener<Tour> getChangeListener() {
         return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
@@ -44,15 +50,19 @@ public class ToursOverviewModel {
         }
     }
 
-    public void setTours(List<Tour> mediaItems) {
+    public void setTours(List<Tour> tourItems) {
         observableMediaItems.clear();
-        observableMediaItems.addAll(mediaItems);
+        observableMediaItems.addAll(tourItems);
     }
 
     public void addNewTour() {
         //var tour = DAL.getInstance().tourDao().create();
-        var tour = new Tour("name", "url");
-        observableMediaItems.add(tour);
+        //var tour = new Tour("name", "url");
+        //Tour tour = new Tour("Heimweg", "on my way", "FH", "Engerthstraße", "Bus", 8, 25, "route_information");
+        //var tourDB = TestDAO.create(tour);
+        Tour tourDB;
+        tourDB = tourServiceImpl.createTour("Heimweg", "on my way", "FH", "Engerthstraße", "Bus", 8, 25, "route_information");
+        observableMediaItems.add(tourDB);
     }
 
     public void deleteTour(Tour tour) {

@@ -16,7 +16,9 @@ public class MainWindowViewModel {
 
        // this.searchBarViewModel.addSearchListener(searchString -> searchTours(searchString));
 
-        //this.toursOverviewModel.addSelectionChangedListener(selectedTour));
+        //this.toursOverviewModel.(selectedTour));
+
+        this.toursOverviewModel.addSelectionChangedListener(selectedTour->selectTour(selectedTour));
 
     }
 
