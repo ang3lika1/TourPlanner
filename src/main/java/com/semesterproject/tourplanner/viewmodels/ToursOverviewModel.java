@@ -1,5 +1,6 @@
 package com.semesterproject.tourplanner.viewmodels;
 
+import com.semesterproject.tourplanner.bl.MapException;
 import com.semesterproject.tourplanner.bl.TourServiceImpl;
 import com.semesterproject.tourplanner.dl.TourDAO;
 import com.semesterproject.tourplanner.models.Tour;
@@ -19,7 +20,7 @@ public class ToursOverviewModel {
 
     private List<SelectionChangedListener> listeners = new ArrayList<>();
 
-    private ObservableList<Tour> observableMediaItems = FXCollections.observableArrayList();
+    private ObservableList<Tour> observableTours = FXCollections.observableArrayList();
 
     public ToursOverviewModel()
     {
@@ -28,7 +29,7 @@ public class ToursOverviewModel {
     }
 
     public ObservableList<Tour> getObservableTours() {
-        return observableMediaItems;
+        return observableTours;
     }
 
 
@@ -51,22 +52,19 @@ public class ToursOverviewModel {
     }
 
     public void setTours(List<Tour> tourItems) {
-        observableMediaItems.clear();
-        observableMediaItems.addAll(tourItems);
+        observableTours.clear();
+        observableTours.addAll(tourItems);
     }
 
-    public void addNewTour() {
-        //var tour = DAL.getInstance().tourDao().create();
-        //var tour = new Tour("name", "url");
-        //Tour tour = new Tour("Heimweg", "on my way", "FH", "Engerthstraße", "Bus", 8, 25, "route_information");
-        //var tourDB = TestDAO.create(tour);
+    public void addNewTour() throws MapException {
         Tour tourDB;
-        tourDB = tourServiceImpl.createTour("Heimweg", "on my way", "FH", "Engerthstraße", "Bus", 8, 25, "route_information");
-        observableMediaItems.add(tourDB);
+        tourDB = tourServiceImpl.createTour("Daham", "weg", "Heinreichs", "Horn", "Auto", 38, 34, "route_information");
+        observableTours.add(tourDB);
+        System.out.println(tourDB);
     }
 
     public void deleteTour(Tour tour) {
         //DAL.getInstance().tourDao().delete(mediaItem);
-        observableMediaItems.remove(tour);
+        observableTours.remove(tour);
     }
 }

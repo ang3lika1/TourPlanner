@@ -50,7 +50,6 @@ public class TourDAO implements DAO<Tour>{
                 int time = result.getInt(8);
                 String routeInfo = result.getString(9);
 
-
                 Tour tour = new Tour(name, description, start, destination, transportType, distance, time, routeInfo);
                 allTours.add(tour);
             }
@@ -77,6 +76,8 @@ public class TourDAO implements DAO<Tour>{
             insert.setInt(7, tour.getTime());
             insert.setString(8, tour.getRoute_information());
             insert.execute();
+
+            return tour;
         } catch (SQLException e) {
             e.printStackTrace();
         }

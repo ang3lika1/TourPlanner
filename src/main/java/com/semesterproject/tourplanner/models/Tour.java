@@ -1,5 +1,18 @@
 package com.semesterproject.tourplanner.models;
 
+import com.semesterproject.tourplanner.bl.ConfigHelper;
+import com.semesterproject.tourplanner.bl.MapQuest;
+import com.semesterproject.tourplanner.bl.TourServiceImpl;
+import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class Tour {
     private String name;
     private String description;
@@ -9,6 +22,7 @@ public class Tour {
     private int distance;
     private int time;
     private String route_information;
+    private MapQuest map;
 
     public Tour(String name, String description, String start, String destination, String transport_type, int distance, int time, String route_information) {
         this.name = name;
@@ -19,6 +33,30 @@ public class Tour {
         this.distance = distance;
         this.time = time;
         this.route_information = route_information;
+    }
+
+    public Image getImage() {
+        BufferedImage img = null;
+        //String filename = ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + TourServiceImpl.getMapImgPath(name);
+        String filename = TourServiceImpl.getMapImgPath(name);
+        System.out.println(filename);
+        Image image = null;
+        try {
+            InputStream stream = new FileInputStream(filename);
+            image = new Image(stream);
+            // img = ImageIO.read(new File(filename));
+        } catch (IOException e) {
+        }
+        //img = new Image(ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + new File(TourServiceImpl.getMapImgPath(name)).getAbsolutePath());
+        return image;
+    }
+
+    public MapQuest getMap() {
+        return map;
+    }
+
+    public void setMap(MapQuest map) {
+        this.map = map;
     }
 
     public String getName() {

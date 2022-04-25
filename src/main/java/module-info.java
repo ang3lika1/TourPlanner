@@ -2,6 +2,13 @@ module com.semesterproject.tourplanner {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires com.google.gson;
+    requires java.desktop;
+    requires ini4j;
+    requires commons.logging;
+    requires spring.context;
+    requires spring.beans;
+    requires javafx.swing;
 
 
     opens com.semesterproject.tourplanner to javafx.fxml;

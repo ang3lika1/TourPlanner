@@ -1,5 +1,6 @@
 package com.semesterproject.tourplanner.view;
 
+import com.semesterproject.tourplanner.bl.MapException;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.viewmodels.ToursOverviewModel;
 import javafx.event.ActionEvent;
@@ -27,7 +28,7 @@ public class ToursOverviewController {
             tourListItem.getSelectionModel().selectedItemProperty().addListener(toursOverviewModel.getChangeListener());
         }
 
-        public void onButtonAdd(ActionEvent actionEvent) {
+        public void onButtonAdd(ActionEvent actionEvent) throws MapException {
             toursOverviewModel.addNewTour();
             tourListItem.getSelectionModel().selectLast();
         }
