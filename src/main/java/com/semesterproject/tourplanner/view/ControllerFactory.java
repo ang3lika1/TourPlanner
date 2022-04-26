@@ -1,21 +1,20 @@
 package com.semesterproject.tourplanner.view;
 
 
-import com.semesterproject.tourplanner.viewmodels.MainWindowViewModel;
-import com.semesterproject.tourplanner.viewmodels.SearchBarViewModel;
-import com.semesterproject.tourplanner.viewmodels.TourDetailsViewModel;
-import com.semesterproject.tourplanner.viewmodels.ToursOverviewModel;
+import com.semesterproject.tourplanner.viewmodels.*;
 
 public class ControllerFactory {
     private final MainWindowViewModel mainWindowViewModel;
     private final SearchBarViewModel searchBarViewModel;
     private final ToursOverviewModel toursOverviewModel;
     private final TourDetailsViewModel tourDetailsViewModel;
+    private final NewTourViewModel newTourViewModel;
 
     public ControllerFactory() {
         searchBarViewModel = new SearchBarViewModel();
         toursOverviewModel = new ToursOverviewModel();
         tourDetailsViewModel = new TourDetailsViewModel();
+        newTourViewModel = new NewTourViewModel();
 
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, toursOverviewModel, tourDetailsViewModel);
     }
@@ -32,6 +31,8 @@ public class ControllerFactory {
             return new ToursOverviewController(toursOverviewModel);
         }else if (controllerClass == TourDetailsController.class) {
             return new TourDetailsController(tourDetailsViewModel);
+        }else if (controllerClass == NewTourController.class) {
+            return new NewTourController(newTourViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }

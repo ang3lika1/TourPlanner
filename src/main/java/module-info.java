@@ -6,8 +6,6 @@ module com.semesterproject.tourplanner {
     requires java.desktop;
     requires ini4j;
     requires commons.logging;
-    requires spring.context;
-    requires spring.beans;
     requires javafx.swing;
 
 

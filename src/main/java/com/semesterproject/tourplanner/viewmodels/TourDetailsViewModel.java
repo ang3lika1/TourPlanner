@@ -11,8 +11,6 @@ public class TourDetailsViewModel {
     private volatile boolean isInitValue = false;
 
     private final StringProperty name = new SimpleStringProperty();
-    //@FXML
-    //private final ImageView mapImg = new ImageView();
     private final ObjectProperty<javafx.scene.image.Image> mapImg = new SimpleObjectProperty<>();
     private final DoubleProperty distance = new SimpleDoubleProperty();
     private final StringProperty plannedTime = new SimpleStringProperty();

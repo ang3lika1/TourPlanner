@@ -11,8 +11,7 @@ public class TourServiceImpl implements TourService{
     }
 
     @Override
-    public Tour createTour(String name, String description, String start, String destination, String transport_type, int distance, int time, String route_information) throws MapException {
-        Tour tour = new Tour(name, description, start, destination, transport_type, distance, time, route_information);
+    public Tour createTour(Tour tour) throws MapException {
         tour.setMap(new MapQuest(tour));
         var tourDB = tourDAO.create(tour);
 

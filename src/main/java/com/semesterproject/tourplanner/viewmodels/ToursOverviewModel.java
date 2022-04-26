@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,11 +57,18 @@ public class ToursOverviewModel {
         observableTours.addAll(tourItems);
     }
 
-    public void addNewTour() throws MapException {
-        Tour tourDB;
-        tourDB = tourServiceImpl.createTour("Daham", "weg", "Heinreichs", "Horn", "Auto", 38, 34, "route_information");
-        observableTours.add(tourDB);
-        System.out.println(tourDB);
+
+
+    public void addNewTour() throws MapException, IOException {
+        /*String name = NewTour.display("New Tour", "enter Tour-Name: ");
+        System.out.println(name);*/
+        Tour t = NewTour.getInstance().getCreateTour();
+
+        if(!NewTour.getInstance().isCancelled()) {
+            Tour tourDB = tourServiceImpl.createTour(t);
+            observableTours.add(tourDB);
+            System.out.println(tourDB);
+        }
     }
 
     public void deleteTour(Tour tour) {
