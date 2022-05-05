@@ -14,6 +14,7 @@ public class TourDAO implements DAO<Tour>{
     static Connection connection = Database.getInstance().getConnection();
     static PreparedStatement insert = null;
     static PreparedStatement select = null;
+    static PreparedStatement delete = null;
     private static TourDAO instance = null;
 
     static{
@@ -29,10 +30,31 @@ public class TourDAO implements DAO<Tour>{
         return Optional.empty();
     }
 
-    @Override
+    public static Integer getID(Tour tour) {
+        try {
+            select = null;
+            select = connection.prepareStatement("SELECT * FROM tour WHERE name = ?");
+            select.setString(1, tour.getName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            ResultSet result =  select.executeQuery();
+            if (result.next()) {
+                int id = result.getInt(1);
+                return id;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+        @Override
     public List<Tour> getAll() {
         List<Tour> allTours= new ArrayList<>();
         try {
+            select = null;
             select = connection.prepareStatement("SELECT * FROM tour");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,7 +94,7 @@ public class TourDAO implements DAO<Tour>{
             insert.setString(3, tour.getStart());
             insert.setString(4, tour.getDestination());
             insert.setString(5, tour.getTransport_type());
-            insert.setInt(6, tour.getDistance());
+            insert.setDouble(6, tour.getDistance());
             insert.setInt(7, tour.getTime());
             insert.setString(8, tour.getRoute_information());
             insert.execute();
@@ -91,6 +113,14 @@ public class TourDAO implements DAO<Tour>{
 
     @Override
     public void delete(Tour tour) {
-
+        try{
+            delete = connection.prepareStatement("""
+                DELETE FROM tour WHERE id = ?
+                """);
+            delete.setInt(1, tour.getId());
+            delete.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

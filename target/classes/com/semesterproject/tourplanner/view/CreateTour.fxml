@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.semesterproject.tourplanner.view.NewTourController">
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0">
     <children>
         <Label fx:id="createLabel" contentDisplay="CENTER" layoutX="224.0" layoutY="21.0" prefHeight="33.0" prefWidth="153.0" text="Create Tour" textFill="#797cd9">
             <font>
@@ -24,6 +24,12 @@
         <Label fx:id="startLabel" layoutX="31.0" layoutY="128.0" prefHeight="17.0" prefWidth="52.0" text="Start:" />
         <Label fx:id="destinationLabel" layoutX="31.0" layoutY="200.0" text="Destination:" />
         <Button fx:id="cancelButton" layoutX="31.0" layoutY="339.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+        <TextField fx:id="transtype" layoutX="366.0" layoutY="99.0" promptText="e.g. car" />
+        <Label fx:id="transtypeLabel" layoutX="372.0" layoutY="71.0" prefHeight="17.0" prefWidth="100.0" text="Transport Type:" />
+        <TextField fx:id="description" layoutX="364.0" layoutY="169.0" promptText="..." />
+        <Label fx:id="descriptionLabel" layoutX="370.0" layoutY="141.0" prefHeight="17.0" prefWidth="78.0" text="Description:" />
+        <TextField fx:id="routeinformation" layoutX="366.0" layoutY="243.0" promptText="..." />
+        <Label fx:id="informationLabel" layoutX="372.0" layoutY="215.0" prefHeight="17.0" prefWidth="110.0" text="Route Information:" />
     </children>
 </AnchorPane>
 </VBox>

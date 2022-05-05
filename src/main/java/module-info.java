@@ -7,7 +7,7 @@ module com.semesterproject.tourplanner {
     requires ini4j;
     requires commons.logging;
     requires javafx.swing;
-
+    requires org.apache.logging.log4j;
 
     opens com.semesterproject.tourplanner to javafx.fxml;
     exports com.semesterproject.tourplanner;

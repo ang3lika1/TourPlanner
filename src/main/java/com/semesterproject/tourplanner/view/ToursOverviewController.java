@@ -5,6 +5,7 @@ import com.semesterproject.tourplanner.bl.MapException;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.viewmodels.ToursOverviewModel;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,31 +48,21 @@ public class ToursOverviewController {
         public void onButtonAdd(ActionEvent actionEvent) throws MapException, IOException {
             Parent parent = DependencyInjection.load("CreateTour.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
             Stage stage = new Stage();
-            Scene dialogScene = new Scene(parent, 300, 200);
+            Scene dialogScene = new Scene(parent, 600, 400);
             stage.setScene(dialogScene);
             stage.showAndWait();
 
 
             toursOverviewModel.addNewTour();
+            Button deleteButton = new Button("delete");
+            deleteButton.setOnAction(this::onButtonRemove);
+
             tourListItem.getSelectionModel().selectLast();
         }
 
         public void onButtonRemove(ActionEvent actionEvent) {
             toursOverviewModel.deleteTour(tourListItem.getSelectionModel().getSelectedItem());
         }
-
-        /*@FXML
-        private Label createLabel;
-        @FXML
-        private TextField tourname;
-        @FXML
-        private Button createButton;
-
-        String name;
-        public void submit(ActionEvent event){
-            name = tourname.getText();
-            System.out.println(name);
-        }*/
 
     }
 

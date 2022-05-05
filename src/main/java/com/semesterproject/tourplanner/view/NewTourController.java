@@ -13,7 +13,13 @@ import javafx.stage.Stage;
 
 public class NewTourController {
     @FXML
-    private Label createLabel;
+    public Button cancelButton;
+    @FXML
+    public TextField transtype;
+    @FXML
+    public TextField description;
+    @FXML
+    public TextField routeinformation;
     @FXML
     private TextField tourname;
     @FXML
@@ -38,7 +44,8 @@ public class NewTourController {
     }
 
     public void submit(ActionEvent actionEvent) {
-        Tour tour = new Tour(tourname.getText(),"weg", start.getText(), destination.getText(), "Auto", 38, 34, "route_information");
+        //Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), 38, 34, routeinformation.getText());
+        Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), routeinformation.getText());
 
         NewTour.getInstance().setCreateTour(tour);
         NewTour.getInstance().setCancelled(false);

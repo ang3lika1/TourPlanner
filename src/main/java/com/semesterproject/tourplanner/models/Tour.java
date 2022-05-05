@@ -19,10 +19,20 @@ public class Tour {
     private String start;
     private String destination;
     private String transport_type;
-    private int distance;
+    private double distance;
     private int time;
     private String route_information;
     private MapQuest map;
+    private int id;
+
+    public Tour(String name, String description, String start, String destination, String transport_type, String route_information) {
+        this.name = name;
+        this.description = description;
+        this.start = start;
+        this.destination = destination;
+        this.transport_type = transport_type;
+        this.route_information = route_information;
+    }
 
     public Tour(String name, String description, String start, String destination, String transport_type, int distance, int time, String route_information) {
         this.name = name;
@@ -49,6 +59,14 @@ public class Tour {
         }
         //img = new Image(ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + new File(TourServiceImpl.getMapImgPath(name)).getAbsolutePath());
         return image;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public MapQuest getMap() {
@@ -99,11 +117,11 @@ public class Tour {
         this.transport_type = transport_type;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
@@ -121,5 +139,10 @@ public class Tour {
 
     public void setRoute_information(String route_information) {
         this.route_information = route_information;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
