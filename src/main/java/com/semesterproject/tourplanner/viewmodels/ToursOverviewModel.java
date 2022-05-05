@@ -60,8 +60,6 @@ public class ToursOverviewModel {
 
 
     public void addNewTour() throws MapException, IOException {
-        /*String name = NewTour.display("New Tour", "enter Tour-Name: ");
-        System.out.println(name);*/
         Tour t = NewTour.getInstance().getCreateTour();
 
         if(!NewTour.getInstance().isCancelled()) {
@@ -72,7 +70,7 @@ public class ToursOverviewModel {
     }
 
     public void deleteTour(Tour tour) {
-        //DAL.getInstance().tourDao().delete(mediaItem);
+        tourServiceImpl.removeTour(tour);
         observableTours.remove(tour);
     }
 }

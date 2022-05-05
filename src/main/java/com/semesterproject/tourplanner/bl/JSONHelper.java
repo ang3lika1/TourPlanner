@@ -21,8 +21,12 @@ public class JSONHelper {
 
     public static int getIntFromJson(String json, String gets){
         return getJsonObj(json).get("route").getAsJsonObject().get(gets).getAsInt();
-        //return getJObj(json).get("route").getAsJsonObject().get(gets).getAsDouble();
     }
+
+    public static double getDoubleFromJson(String json, String gets){
+        return getJsonObj(json).get("route").getAsJsonObject().get(gets).getAsDouble();
+    }
+
 
     public static void getJsonFromObj(Object obj , FileWriter writer){
         new Gson().toJson(obj, writer);

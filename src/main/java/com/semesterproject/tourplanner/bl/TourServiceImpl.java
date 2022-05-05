@@ -12,10 +12,19 @@ public class TourServiceImpl implements TourService{
 
     @Override
     public Tour createTour(Tour tour) throws MapException {
-        tour.setMap(new MapQuest(tour));
-        var tourDB = tourDAO.create(tour);
+        MapQuest mapquest = new MapQuest(tour);
+        tour.setMap(mapquest);
+        tour.setDistance(mapquest.getCalculatedDistance());
+        tour.setTime(mapquest.getCalculatedTime());
 
+        var tourDB = tourDAO.create(tour);
+        tourDB.setId(tourDAO.getID(tourDB));
         return tourDB;
+    }
+
+    @Override
+    public void removeTour(Tour tour){
+        tourDAO.delete(tour);
     }
 
 

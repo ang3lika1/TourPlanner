@@ -9,7 +9,8 @@ import java.io.IOException;
 
 public class MapQuest {
     private Tour tour;
-    private int calculatedTime, calculatedDistance;
+    private int calculatedTime;
+    private double calculatedDistance;
     private String sessionID;
 
     public MapQuest(Tour tour) throws MapException {
@@ -34,7 +35,7 @@ public class MapQuest {
         try {
             String json = HTTPHelper.httpGetJsonString("https://www.mapquestapi.com/directions/v2/route?key="+ ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key")+"&from="+start+"&to="+destination+"&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false");
             //System.out.println(json);
-            this.calculatedDistance = JSONHelper.getIntFromJson(json, "distance");
+            this.calculatedDistance = JSONHelper.getDoubleFromJson(json, "distance");
             this.calculatedTime = timeInMinutes(JSONHelper.getStringFromJson(json, "formattedTime"));
             System.out.println("time: " + this.calculatedTime);
             System.out.println("distance: " + this.calculatedDistance);
@@ -54,6 +55,10 @@ public class MapQuest {
         }
     }
 
+    /*private double intToDouble(Integer integerNum){
+        return Double.valueOf(integerNum);
+    }*/
+
 
     private int timeInMinutes(String time){
         int minutes = 0;
@@ -64,7 +69,13 @@ public class MapQuest {
         return minutes;
     }
 
+    public int getCalculatedTime() {
+        return calculatedTime;
+    }
 
+    public double getCalculatedDistance() {
+        return calculatedDistance;
+    }
 }
 
 

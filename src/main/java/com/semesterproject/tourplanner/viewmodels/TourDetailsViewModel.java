@@ -11,9 +11,15 @@ public class TourDetailsViewModel {
     private volatile boolean isInitValue = false;
 
     private final StringProperty name = new SimpleStringProperty();
+    private final StringProperty description = new SimpleStringProperty();
+    private final StringProperty information = new SimpleStringProperty();
     private final ObjectProperty<javafx.scene.image.Image> mapImg = new SimpleObjectProperty<>();
     private final DoubleProperty distance = new SimpleDoubleProperty();
+    private final IntegerProperty time = new SimpleIntegerProperty();
     private final StringProperty plannedTime = new SimpleStringProperty();
+    private final StringProperty start = new SimpleStringProperty();
+    private final StringProperty destination = new SimpleStringProperty();
+    private final StringProperty transtype = new SimpleStringProperty();
 
     public TourDetailsViewModel() {
         name.addListener( (arg, oldVal, newVal)->updateTourModel());
@@ -28,16 +34,33 @@ public class TourDetailsViewModel {
         return name;
     }
 
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public StringProperty informationProperty() {
+        return information;
+    }
+    public StringProperty startProperty() {
+        return start;
+    }
+    public StringProperty destinationProperty() {
+        return destination;
+    }
+    public StringProperty transtypeProperty() {
+        return transtype;
+    }
+
     public ObjectProperty<Image> mapImage(){
         return mapImg;
     }
 
-    public double getDistance() {
-        return distance.get();
-    }
 
     public DoubleProperty distanceProperty() {
         return distance;
+    }
+    public IntegerProperty timeProperty() {
+        return time;
     }
 
     public String getPlannedTime() {
@@ -59,6 +82,13 @@ public class TourDetailsViewModel {
         System.out.println("setTourModel name=" + tourModel.getName());
         this.tour = tourModel;
         name.setValue( tourModel.getName() );
+        description.setValue( tourModel.getDescription() );
+        information.setValue( tourModel.getRoute_information() );
+        start.setValue( tourModel.getStart() );
+        destination.setValue( tourModel.getDestination() );
+        transtype.setValue( tourModel.getTransport_type() );
+        distance.setValue(tourModel.getDistance());
+        time.setValue(tourModel.getTime());
         isInitValue = false;
     }
 

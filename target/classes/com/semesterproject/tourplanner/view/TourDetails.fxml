@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.semesterproject.tourplanner.view.TourDetailsController">
     <ToolBar>
@@ -12,11 +13,64 @@
     <SplitPane dividerPositions="0.5" orientation="VERTICAL" VBox.vgrow="ALWAYS">
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <Tab text="%MediaDetails_Tab_Content">
-                <!--<AnchorPane/>-->
                 <ImageView fx:id="mapImg" />
             </Tab>
             <Tab text="%MediaDetails_Tab_Description">
-                <TextArea/>
+                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                            prefHeight="516.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
+                            xmlns:fx="http://javafx.com/fxml/1">
+                    <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="215.0" layoutY="44.0"
+                           prefHeight="17.0" prefWidth="170.0" text="Tour Details" textFill="#9c4d9e">
+                        <font>
+                            <Font name="System Bold" size="19.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="distanceField" layoutX="39.0" layoutY="253.0"/>
+                    <Label layoutX="39.0" layoutY="228.0" prefHeight="17.0" prefWidth="149.0" text="Distance:">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="timeField" layoutX="226.0" layoutY="255.0"/>
+                    <Label layoutX="226.0" layoutY="230.0" prefHeight="17.0" prefWidth="149.0" text="Planned Time:">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="startTextField" layoutX="39.0" layoutY="180.0"/>
+                    <Label layoutX="39.0" layoutY="155.0" prefHeight="17.0" prefWidth="149.0" text="Start:">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="destinationTextField" layoutX="226.0" layoutY="180.0"/>
+                    <Label layoutX="226.0" layoutY="155.0" prefHeight="17.0" prefWidth="149.0" text="Destination:">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="transptypeTextField" layoutX="413.0" layoutY="182.0"/>
+                    <Label layoutX="413.0" layoutY="157.0" prefHeight="17.0" prefWidth="149.0" text="Transport Type:">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="descriptionTextField" layoutX="38.0" layoutY="346.0" prefHeight="27.0"
+                               prefWidth="525.0"/>
+                    <Label layoutX="38.0" layoutY="321.0" prefHeight="17.0" prefWidth="149.0" text="Description:">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="informationTextField" layoutX="38.0" layoutY="433.0" prefHeight="27.0"
+                               prefWidth="525.0"/>
+                    <Label layoutX="38.0" layoutY="408.0" prefHeight="27.0" prefWidth="170.0" text="Route Information:">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </Label>
+                </AnchorPane>
+
             </Tab>
         </TabPane>
     </SplitPane>
