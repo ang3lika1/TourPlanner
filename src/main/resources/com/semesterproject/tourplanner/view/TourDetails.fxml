@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.semesterproject.tourplanner.view.TourDetailsController">
     <ToolBar>
@@ -11,7 +12,8 @@
     <SplitPane dividerPositions="0.5" orientation="VERTICAL" VBox.vgrow="ALWAYS">
         <TabPane tabClosingPolicy="UNAVAILABLE">
             <Tab text="%MediaDetails_Tab_Content">
-                <AnchorPane/>
+                <!--<AnchorPane/>-->
+                <ImageView fx:id="mapImg" />
             </Tab>
             <Tab text="%MediaDetails_Tab_Description">
                 <TextArea/>

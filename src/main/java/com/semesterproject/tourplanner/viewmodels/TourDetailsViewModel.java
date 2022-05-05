@@ -1,18 +1,17 @@
 package com.semesterproject.tourplanner.viewmodels;
 
 import com.semesterproject.tourplanner.models.Tour;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
-import java.util.Arrays;
+import javafx.beans.property.*;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class TourDetailsViewModel {
     private Tour tour;
     private volatile boolean isInitValue = false;
 
     private final StringProperty name = new SimpleStringProperty();
+    private final ObjectProperty<javafx.scene.image.Image> mapImg = new SimpleObjectProperty<>();
     private final DoubleProperty distance = new SimpleDoubleProperty();
     private final StringProperty plannedTime = new SimpleStringProperty();
 
@@ -27,6 +26,10 @@ public class TourDetailsViewModel {
 
     public StringProperty nameProperty() {
         return name;
+    }
+
+    public ObjectProperty<Image> mapImage(){
+        return mapImg;
     }
 
     public double getDistance() {
@@ -45,6 +48,7 @@ public class TourDetailsViewModel {
         return plannedTime;
     }
 
+
     public void setTourModel(Tour tourModel) {
         isInitValue = true;
         if( tourModel ==null ) {
@@ -58,8 +62,23 @@ public class TourDetailsViewModel {
         isInitValue = false;
     }
 
+    public void setTourMap(Tour tourModel) {
+        isInitValue = true;
+        if( tourModel ==null ) {
+            // select the first in the list
+           //mapImg.setValue("");
+            return;
+        }
+
+        this.tour = tourModel;
+        mapImg.setValue(tourModel.getImage());
+        isInitValue = false;
+    }
+
     private void updateTourModel() {
         //if( !isInitValue )
             //DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
     }
+
+
 }

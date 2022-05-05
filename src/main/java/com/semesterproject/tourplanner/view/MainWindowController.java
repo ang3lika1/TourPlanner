@@ -14,6 +14,7 @@ public class MainWindowController {
     @FXML private SearchBarController searchBarController;    // injected controller of SearchBar.fxml
     @FXML private ToursOverviewController toursOverviewController;    // injected controller of TourOverview.fxml
     @FXML private TourDetailsController tourDetailsController;    // injected controller of TourDetails.fxml
+    @FXML private NewTourController newTourController;
 
     private final MainWindowViewModel mainViewModel;
 

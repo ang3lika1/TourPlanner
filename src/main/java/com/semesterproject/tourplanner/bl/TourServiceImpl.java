@@ -7,14 +7,20 @@ public class TourServiceImpl implements TourService{
     private static TourDAO tourDAO;
 
     public TourServiceImpl() {
-        this.tourDAO = tourDAO.getInstance();
+        tourDAO = TourDAO.getInstance();
     }
 
     @Override
-    public Tour createTour(String name, String description, String start, String destination, String transport_type, int distance, int time, String route_information) {
-        Tour tour = new Tour(name, description, start, destination, transport_type, distance, time, route_information);
+    public Tour createTour(Tour tour) throws MapException {
+        tour.setMap(new MapQuest(tour));
         var tourDB = tourDAO.create(tour);
 
         return tourDB;
+    }
+
+
+    public static String getMapImgPath(String name){
+        System.out.println(ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") + name + ".jpg");
+        return ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") + name + ".jpg";
     }
 }

@@ -18,12 +18,13 @@ public class MainWindowViewModel {
 
         //this.toursOverviewModel.(selectedTour));
 
-        this.toursOverviewModel.addSelectionChangedListener(selectedTour->selectTour(selectedTour));
+        this.toursOverviewModel.addSelectionChangedListener(this::selectTour);
 
     }
 
     private void selectTour(Tour selectedTour){
         tourDetailsViewModel.setTourModel(selectedTour);
+        tourDetailsViewModel.setTourMap(selectedTour);
     }
 
     /*private void searchTours(String searchString){
