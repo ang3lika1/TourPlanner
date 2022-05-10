@@ -8,6 +8,9 @@ module com.semesterproject.tourplanner {
     requires commons.logging;
     requires javafx.swing;
     requires org.apache.logging.log4j;
+    requires layout;
+    requires kernel;
+    requires io;
 
     opens com.semesterproject.tourplanner to javafx.fxml;
     exports com.semesterproject.tourplanner;

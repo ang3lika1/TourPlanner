@@ -65,7 +65,6 @@ public class ToursOverviewModel {
         if(!NewTour.getInstance().isCancelled()) {
             Tour tourDB = tourServiceImpl.createTour(t);
             observableTours.add(tourDB);
-            System.out.println(tourDB);
         }
     }
 

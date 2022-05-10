@@ -9,12 +9,14 @@ public class ControllerFactory {
     private final ToursOverviewModel toursOverviewModel;
     private final TourDetailsViewModel tourDetailsViewModel;
     private final NewTourViewModel newTourViewModel;
+    private final NewLogViewModel newLogViewModel;
 
     public ControllerFactory() {
         searchBarViewModel = new SearchBarViewModel();
         toursOverviewModel = new ToursOverviewModel();
         tourDetailsViewModel = new TourDetailsViewModel();
         newTourViewModel = new NewTourViewModel();
+        newLogViewModel = new NewLogViewModel();
 
         mainWindowViewModel = new MainWindowViewModel(searchBarViewModel, toursOverviewModel, tourDetailsViewModel);
     }
@@ -33,6 +35,8 @@ public class ControllerFactory {
             return new TourDetailsController(tourDetailsViewModel);
         }else if (controllerClass == NewTourController.class) {
             return new NewTourController(newTourViewModel);
+        }else if (controllerClass == NewLogController.class) {
+            return new NewLogController(newLogViewModel);
         }
         throw new IllegalArgumentException("Unknown controller class: " + controllerClass);
     }

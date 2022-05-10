@@ -1,5 +1,7 @@
 package com.semesterproject.tourplanner.bl;
 
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.models.Tour;
 
 
@@ -8,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MapQuest {
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(MapQuest.class);
     private Tour tour;
     private int calculatedTime;
     private double calculatedDistance;
@@ -37,8 +40,8 @@ public class MapQuest {
             //System.out.println(json);
             this.calculatedDistance = JSONHelper.getDoubleFromJson(json, "distance");
             this.calculatedTime = timeInMinutes(JSONHelper.getStringFromJson(json, "formattedTime"));
-            System.out.println("time: " + this.calculatedTime);
-            System.out.println("distance: " + this.calculatedDistance);
+            logger.info("time: " + this.calculatedTime);
+            logger.info("distance: " + this.calculatedDistance);
             //set time and distance in db automatically?
 
             this.sessionID = JSONHelper.getStringFromJson(json, "sessionId");

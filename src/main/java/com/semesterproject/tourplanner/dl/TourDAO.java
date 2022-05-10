@@ -1,5 +1,7 @@
 package com.semesterproject.tourplanner.dl;
 
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.models.Tour;
 
 import java.sql.Connection;
@@ -16,6 +18,7 @@ public class TourDAO implements DAO<Tour>{
     static PreparedStatement select = null;
     static PreparedStatement delete = null;
     private static TourDAO instance = null;
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(TourDAO.class);
 
     static{
         TourDAO.instance = new TourDAO();
@@ -50,7 +53,7 @@ public class TourDAO implements DAO<Tour>{
         return null;
     }
 
-        @Override
+    @Override
     public List<Tour> getAll() {
         List<Tour> allTours= new ArrayList<>();
         try {
@@ -72,7 +75,7 @@ public class TourDAO implements DAO<Tour>{
                 int time = result.getInt(8);
                 String routeInfo = result.getString(9);
 
-                Tour tour = new Tour(name, description, start, destination, transportType, distance, time, routeInfo);
+                Tour tour = new Tour(name, description, start, destination, transportType, distance, time, routeInfo, id);
                 allTours.add(tour);
             }
             return allTours;
@@ -87,7 +90,7 @@ public class TourDAO implements DAO<Tour>{
         try{
             insert = connection.prepareStatement("""
                 INSERT INTO tour(name, description, start, destination, transport_type, distance, time, route_information)
-                VALUES(?,?,?,?,?,?,?,?)
+                VALUES(?,?,?,?,?,?,?,?) RETURNING id
                 """);
             insert.setString(1, tour.getName());
             insert.setString(2, tour.getDescription());
@@ -97,8 +100,13 @@ public class TourDAO implements DAO<Tour>{
             insert.setDouble(6, tour.getDistance());
             insert.setInt(7, tour.getTime());
             insert.setString(8, tour.getRoute_information());
-            insert.execute();
+            ResultSet result = insert.executeQuery();
 
+            if (result.next()) {
+                int id = result.getInt(1);
+                tour.setId(id);
+                logger.info("id returned: "+id);
+            }
             return tour;
         } catch (SQLException e) {
             e.printStackTrace();

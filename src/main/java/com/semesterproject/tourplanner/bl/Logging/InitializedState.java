@@ -30,4 +30,9 @@ public class InitializedState extends LoggerStateBase {
     public void warn(String message) {
         this.logger.warn(message);
     }
+
+    @Override
+    public void info(String message) {
+        this.logger.info(message);
+    }
 }

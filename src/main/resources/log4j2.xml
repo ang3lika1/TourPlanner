@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="DEBUG">
+<Configuration status="WARN">
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console>
-
-        <appender name="fileAppender" class="org.apache.log4j.RollingFileAppender" fileAppender="org.apache.log4j.RollingFileAppender">
-            <param name="File" value="testXML.log"/>
-            <layout class="org.apache.log4j.PatternLayout">
-                <param name="ConversionPattern" value="%d [%p|%c|%C{1}] %m%n"></param>
-            </layout>
-        </appender>
         <File name="FileAppender" fileName="C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\Loggings\application-${date:yyyyMMdd}.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
@@ -20,7 +13,6 @@
             <!--<priority value="debug"/>-->
             <AppenderRef ref="ConsoleAppender" />
             <AppenderRef ref="FileAppender"/>
-            <appender-ref ref="fileAppender"></appender-ref>
         </Root>
     </Loggers>
 </Configuration>

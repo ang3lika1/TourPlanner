@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Tour {
     private String name;
@@ -25,6 +27,8 @@ public class Tour {
     private MapQuest map;
     private int id;
 
+    private ArrayList<TourLog> log;
+
     public Tour(String name, String description, String start, String destination, String transport_type, String route_information) {
         this.name = name;
         this.description = description;
@@ -32,6 +36,7 @@ public class Tour {
         this.destination = destination;
         this.transport_type = transport_type;
         this.route_information = route_information;
+        this.log = new ArrayList<>();
     }
 
     public Tour(String name, String description, String start, String destination, String transport_type, int distance, int time, String route_information) {
@@ -45,11 +50,22 @@ public class Tour {
         this.route_information = route_information;
     }
 
+    public Tour(String name, String description, String start, String destination, String transport_type, double distance, int time, String route_information, int id) {
+        this.name = name;
+        this.description = description;
+        this.start = start;
+        this.destination = destination;
+        this.transport_type = transport_type;
+        this.distance = distance;
+        this.time = time;
+        this.route_information = route_information;
+        this.id = id;
+    }
+
     public Image getImage() {
         BufferedImage img = null;
         //String filename = ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + TourServiceImpl.getMapImgPath(name);
         String filename = TourServiceImpl.getMapImgPath(name);
-        System.out.println(filename);
         Image image = null;
         try {
             InputStream stream = new FileInputStream(filename);
@@ -139,6 +155,24 @@ public class Tour {
 
     public void setRoute_information(String route_information) {
         this.route_information = route_information;
+    }
+
+    public TourLog getLog(int id){
+        AtomicReference<TourLog> returnLog = new AtomicReference<>();
+        this.log.forEach(s -> {
+            if(s.getId() == id){
+                returnLog.set(s);
+            }
+        });
+        return returnLog.get();
+    }
+
+    public ArrayList<TourLog> getLog() {
+        return log;
+    }
+
+    public void setLog(ArrayList<TourLog> log) {
+        this.log = log;
     }
 
     @Override

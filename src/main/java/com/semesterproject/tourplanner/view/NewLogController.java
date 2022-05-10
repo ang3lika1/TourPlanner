@@ -1,43 +1,37 @@
 package com.semesterproject.tourplanner.view;
 
 import com.semesterproject.tourplanner.models.Tour;
+import com.semesterproject.tourplanner.models.TourLog;
+import com.semesterproject.tourplanner.viewmodels.NewLogViewModel;
 import com.semesterproject.tourplanner.viewmodels.NewTour;
+import com.semesterproject.tourplanner.viewmodels.NewTourLog;
 import com.semesterproject.tourplanner.viewmodels.NewTourViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class NewTourController {
+public class NewLogController {
     @FXML
-    public Button cancelButton;
+    public TextField difficultyField;
     @FXML
-    public TextField transtype;
+    public Button createButton;
     @FXML
-    public TextField description;
+    public TextField ratingField;
     @FXML
-    public TextField routeinformation;
+    public TextField commentField;
     @FXML
-    private TextField tourname;
+    public TextField timeField;
     @FXML
-    private TextField start;
-    @FXML
-    private TextField destination;
-    @FXML
-    private Button createButton;
+    public DatePicker dateField;
 
-    private final NewTourViewModel newTourViewModel;
+    private final NewLogViewModel newLogViewModel;
 
-    public NewTourController(NewTourViewModel newTourViewModel) {
-        this.newTourViewModel = newTourViewModel;
-    }
-
-
-    public NewTourViewModel getNewTourViewModel() {
-        return newTourViewModel;
+    public NewLogController(NewLogViewModel newLogViewModel) {
+        this.newLogViewModel = newLogViewModel;
     }
 
     @FXML
@@ -46,10 +40,11 @@ public class NewTourController {
 
     public void submit(ActionEvent actionEvent) {
         //Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), 38, 34, routeinformation.getText());
-        Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), routeinformation.getText());
+        //TourLog tourLog = new TourLog(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), routeinformation.getText());
 
-        NewTour.getInstance().setCreateTour(tour);
-        NewTour.getInstance().setCancelled(false);
+        TourLog tourLog = new TourLog(dateField.getValue(),commentField.getText(),difficultyField.getText(),Integer.parseInt(timeField.getText()),ratingField.getText() );
+        NewTourLog.getInstance().setCreateTourLog(tourLog);
+        NewTourLog.getInstance().setCancelled(false);
 
         Node source = (Node)  actionEvent.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
@@ -63,4 +58,5 @@ public class NewTourController {
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
 }

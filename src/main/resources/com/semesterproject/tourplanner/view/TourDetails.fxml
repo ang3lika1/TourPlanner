@@ -74,4 +74,12 @@
             </Tab>
         </TabPane>
     </SplitPane>
+    <ToolBar>
+        <Label text="%Overview_Logs"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button text="+" onAction="#onButtonAddLog"/>
+        <Button text="-" onAction="#onButtonRemoveLog"/>
+        <Button text="..."/>
+    </ToolBar>
+    <ListView fx:id="tourLogListItem" VBox.vgrow="ALWAYS"/>
 </VBox>
