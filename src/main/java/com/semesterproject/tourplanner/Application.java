@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class Application extends javafx.application.Application {
-    private static final LoggerWrapper logger = LoggerFactory.getLogger();
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
-        logger.debug("This is a debug message.");
+        /*logger.debug("This is a debug message.");
         logger.fatal("This is a fatal message.");
         logger.warn("This is a warning message.");
-        logger.error("This is an error message.");
+        logger.error("This is an error message.");*/
 
         launch(args);
     }

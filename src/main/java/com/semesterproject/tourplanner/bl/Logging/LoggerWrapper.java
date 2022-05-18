@@ -5,4 +5,5 @@ public interface LoggerWrapper {
     void fatal(String message);
     void error(String message);
     void warn(String message);
+    void info(String message);
 }

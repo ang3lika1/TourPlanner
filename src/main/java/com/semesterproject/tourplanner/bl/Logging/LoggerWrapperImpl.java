@@ -31,7 +31,12 @@ public class LoggerWrapperImpl implements LoggerWrapper {
         this.state.warn(message);
     }
 
-    public void initialize() {
-        this.state = new InitializedState(LogManager.getLogger(this.getClass().getName()));
+    @Override
+    public void info(String message) {
+        this.state.info(message);
+    }
+
+    public void initialize(Class<?> clazz) {
+        this.state = new InitializedState(LogManager.getLogger(clazz.getName()));
     }
 }

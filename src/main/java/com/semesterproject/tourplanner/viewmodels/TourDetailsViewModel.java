@@ -1,12 +1,26 @@
 package com.semesterproject.tourplanner.viewmodels;
 
+import com.semesterproject.tourplanner.bl.MapException;
+import com.semesterproject.tourplanner.bl.TourLogServiceImpl;
+import com.semesterproject.tourplanner.bl.TourServiceImpl;
+import com.semesterproject.tourplanner.dl.TourDAO;
+import com.semesterproject.tourplanner.dl.TourLogDAO;
 import com.semesterproject.tourplanner.models.Tour;
+import com.semesterproject.tourplanner.models.TourLog;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TourDetailsViewModel {
+    private static TourLogServiceImpl tourLogServiceImpl;
     private Tour tour;
     private volatile boolean isInitValue = false;
 
@@ -21,10 +35,35 @@ public class TourDetailsViewModel {
     private final StringProperty destination = new SimpleStringProperty();
     private final StringProperty transtype = new SimpleStringProperty();
 
+    private List<TourDetailsViewModel.SelectionChangedListener> listeners = new ArrayList<>();
+    private ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
+
     public TourDetailsViewModel() {
+        tourLogServiceImpl = new TourLogServiceImpl();
         name.addListener( (arg, oldVal, newVal)->updateTourModel());
     }
+    public interface SelectionChangedListener {
+        void changeLogSelection(TourLog tourlog);
+    }
 
+    public ObservableList<TourLog> getObservableTourLogs() {
+        return observableTourLogs;
+    }
+    public ChangeListener<TourLog> getChangeListener() {
+        return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
+    }
+    private void notifyListeners(TourLog newValue) {
+        for ( var listener : listeners ) {
+            listener.changeLogSelection(newValue);
+        }
+    }
+
+    public List<TourDetailsViewModel.SelectionChangedListener> getListeners() {
+        return listeners;
+    }
+    public void addSelectionChangedListener(TourDetailsViewModel.SelectionChangedListener listener) {
+        listeners.add(listener);
+    }
 
     public String getName() {
         return name.get();
@@ -63,15 +102,6 @@ public class TourDetailsViewModel {
         return time;
     }
 
-    public String getPlannedTime() {
-        return plannedTime.get();
-    }
-
-    public StringProperty plannedTimeProperty() {
-        return plannedTime;
-    }
-
-
     public void setTourModel(Tour tourModel) {
         isInitValue = true;
         if( tourModel ==null ) {
@@ -79,7 +109,6 @@ public class TourDetailsViewModel {
             name.set("");
             return;
         }
-        System.out.println("setTourModel name=" + tourModel.getName());
         this.tour = tourModel;
         name.setValue( tourModel.getName() );
         description.setValue( tourModel.getDescription() );
@@ -90,6 +119,7 @@ public class TourDetailsViewModel {
         distance.setValue(tourModel.getDistance());
         time.setValue(tourModel.getTime());
         isInitValue = false;
+        setTourLogs(TourLogDAO.getInstance().getAll(tour.getId()));
     }
 
     public void setTourMap(Tour tourModel) {
@@ -108,6 +138,26 @@ public class TourDetailsViewModel {
     private void updateTourModel() {
         //if( !isInitValue )
             //DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
+    }
+
+    public void setTourLogs(List<TourLog> logItems) {
+        observableTourLogs.clear();
+        observableTourLogs.addAll(logItems);
+    }
+
+    public void addNewTourLog() throws IOException {
+        TourLog tourLog = NewTourLog.getInstance().getCreateTourLog();
+
+        if(!NewTourLog.getInstance().isCancelled()) {
+            tourLog.setTourId(tour.getId());
+            TourLog tourLogDB = tourLogServiceImpl.createTourLog(tourLog);
+            observableTourLogs.add(tourLogDB);
+        }
+    }
+
+    public void deleteTourLog(TourLog tourLog) {
+        tourLogServiceImpl.removeTour(tourLog);
+        observableTourLogs.remove(tourLog);
     }
 
 
