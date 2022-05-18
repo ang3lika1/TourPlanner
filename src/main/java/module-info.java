@@ -15,4 +15,5 @@ module com.semesterproject.tourplanner {
     opens com.semesterproject.tourplanner to javafx.fxml;
     exports com.semesterproject.tourplanner;
     opens com.semesterproject.tourplanner.view to javafx.fxml;
+    opens com.semesterproject.tourplanner.models to javafx.base;
 }

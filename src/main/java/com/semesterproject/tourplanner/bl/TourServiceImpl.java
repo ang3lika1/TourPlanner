@@ -11,10 +11,12 @@ import java.util.ArrayList;
 
 public class TourServiceImpl implements TourService{
     private static TourDAO tourDAO;
+    private static TourLogServiceImpl tourLogServiceImpl;
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourServiceImpl.class);
 
     public TourServiceImpl() {
         tourDAO = TourDAO.getInstance();
+        tourLogServiceImpl = new TourLogServiceImpl();
     }
 
     public static ArrayList<Tour> getAllTours() {
@@ -36,6 +38,7 @@ public class TourServiceImpl implements TourService{
 
     @Override
     public void removeTour(Tour tour){
+        tourLogServiceImpl.removeAllTourLogs(tour);
         int deletedTour = tour.getId();
         tourDAO.delete(tour);
         logger.info("Tour with ID: " + deletedTour + " deleted!");

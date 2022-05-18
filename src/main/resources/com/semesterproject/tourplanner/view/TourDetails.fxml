@@ -81,5 +81,17 @@
         <Button text="-" onAction="#onButtonRemoveLog"/>
         <Button text="..."/>
     </ToolBar>
-    <ListView fx:id="tourLogListItem" VBox.vgrow="ALWAYS"/>
+    <TableView fx:id="tourLogListItems" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+            <TableColumn fx:id="date" prefWidth="75.0" text="Date" />
+            <TableColumn fx:id="totalTime" prefWidth="75.0" text="Total Time" />
+            <TableColumn fx:id="comment" prefWidth="75.0" text="Comment" />
+            <TableColumn fx:id="difficulty" prefWidth="75.0" text="Difficulty" />
+            <TableColumn fx:id="rating" prefWidth="75.0" text="Rating" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+    </TableView>
+   <!-- <ListView fx:id="tourLogListItem" VBox.vgrow="ALWAYS"/>-->
 </VBox>

@@ -15,5 +15,7 @@ public interface DAOLog<T> {
 
     void update(T t, List<?> params);
 
-    void delete(T t);
+    void delete(TourLog tourLog);
+
+    void deleteAll(Tour tour);
 }

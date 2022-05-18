@@ -1,6 +1,5 @@
 package com.semesterproject.tourplanner.dl;
 
-import com.semesterproject.tourplanner.Application;
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.models.Tour;
@@ -34,7 +33,7 @@ public class TourLogDAO implements DAOLog{
     }
 
     @Override
-    public List getAll(int tourId) {
+    public List<TourLog> getAll(int tourId) {
         List<TourLog> allTourLogs= new ArrayList<>();
         try {
             select = null;
@@ -72,7 +71,7 @@ public class TourLogDAO implements DAOLog{
                 VALUES(?,?,?,?,?,?) RETURNING id
                 """);
             insert.setInt(1, tourLog.getTourId());
-            insert.setDate(2,Date.valueOf(tourLog.getDatum()));
+            insert.setDate(2,Date.valueOf(tourLog.getDate()));
             insert.setString(3,tourLog.getComment());
             insert.setString(4,tourLog.getDifficulty());
             insert.setInt(5,tourLog.getTotalTime());
@@ -92,9 +91,33 @@ public class TourLogDAO implements DAOLog{
     }
 
     @Override
-    public void delete(Object o) {
-
+    public void delete(TourLog tourLog) {
+        try{
+            delete = null;
+            delete = connection.prepareStatement("""
+                DELETE FROM tourlog WHERE id = ?
+                """);
+            delete.setInt(1, tourLog.getId());
+            delete.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+    @Override
+    public void deleteAll(Tour tour) {
+        try{
+            delete = null;
+            delete = connection.prepareStatement("""
+                DELETE FROM tourlog WHERE tour_id = ?
+                """);
+            delete.setInt(1, tour.getId());
+            delete.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void update(Object o, List params) {

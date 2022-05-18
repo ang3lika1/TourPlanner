@@ -6,24 +6,24 @@ import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 import com.semesterproject.tourplanner.viewmodels.TourDetailsViewModel;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Locale;
 
 
 public class TourDetailsController {
-    //public TableView<Tour> details;
-    //public TableColumn<Tour, String> startCol, destinationCol, transtypeCol;
-    //public TableColumn<Tour, Double> distanceCol, timeCol;
     @FXML
     public TextField nameTextField;
     @FXML
@@ -41,10 +41,18 @@ public class TourDetailsController {
     public TextField transptypeTextField;
 
     @FXML
-    public ListView<TourLog> tourLogListItem;
-
-    //public TableColumn<Parameter, Double> distanceCol;
-
+    private TableView<TourLog> tourLogListItems;
+    @FXML
+    private TableColumn<TourLog, LocalDate> date;
+    @FXML
+    private TableColumn<TourLog, Integer> totalTime;
+    @FXML
+    private TableColumn<TourLog, String> comment;
+    @FXML
+    private TableColumn<TourLog, String> difficulty;
+    @FXML
+    private TableColumn<TourLog, String> rating;
+    private ObservableList<TourLog> tourlogs  = FXCollections.observableArrayList();;
 
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {
@@ -71,8 +79,14 @@ public class TourDetailsController {
                 tourDetailsViewModel.timeProperty()));
         mapImg.imageProperty().bindBidirectional(tourDetailsViewModel.mapImage());
 
-        tourLogListItem.setItems(tourDetailsViewModel.getObservableTourLogs());
-        tourLogListItem.getSelectionModel().selectedItemProperty().addListener(tourDetailsViewModel.getChangeListener());
+        Bindings.bindContent(tourlogs, tourDetailsViewModel.ListProperty());
+        date.setCellValueFactory(new PropertyValueFactory<TourLog, LocalDate>("date"));
+        totalTime.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("totalTime"));
+        comment.setCellValueFactory(new PropertyValueFactory<TourLog, String>("comment"));
+        difficulty.setCellValueFactory(new PropertyValueFactory<TourLog, String>("difficulty"));
+        rating.setCellValueFactory(new PropertyValueFactory<TourLog, String>("rating"));
+        tourLogListItems.setItems(tourlogs);
+        tourLogListItems.getSelectionModel().selectedItemProperty().addListener(tourDetailsViewModel.getChangeListener());
     }
 
     @FXML
@@ -88,10 +102,10 @@ public class TourDetailsController {
         Button deleteButton = new Button("delete");
         deleteButton.setOnAction(this::onButtonRemoveLog);
 
-        tourLogListItem.getSelectionModel().selectLast();
+        tourLogListItems.getSelectionModel().selectLast();
     }
 
     public void onButtonRemoveLog(ActionEvent actionEvent) {
-        tourDetailsViewModel.deleteTourLog(tourLogListItem.getSelectionModel().getSelectedItem());
+        tourDetailsViewModel.deleteTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
     }
 }

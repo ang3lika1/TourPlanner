@@ -1,14 +1,9 @@
 package com.semesterproject.tourplanner.models;
 
-import com.semesterproject.tourplanner.bl.ConfigHelper;
 import com.semesterproject.tourplanner.bl.MapQuest;
 import com.semesterproject.tourplanner.bl.TourServiceImpl;
 import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,17 +58,14 @@ public class Tour {
     }
 
     public Image getImage() {
-        BufferedImage img = null;
-        //String filename = ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + TourServiceImpl.getMapImgPath(name);
         String filename = TourServiceImpl.getMapImgPath(name);
         Image image = null;
         try {
             InputStream stream = new FileInputStream(filename);
             image = new Image(stream);
-            // img = ImageIO.read(new File(filename));
         } catch (IOException e) {
+
         }
-        //img = new Image(ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + new File(TourServiceImpl.getMapImgPath(name)).getAbsolutePath());
         return image;
     }
 

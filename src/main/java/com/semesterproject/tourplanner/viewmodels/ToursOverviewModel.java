@@ -69,6 +69,7 @@ public class ToursOverviewModel {
     }
 
     public void deleteTour(Tour tour) {
+
         tourServiceImpl.removeTour(tour);
         observableTours.remove(tour);
     }
