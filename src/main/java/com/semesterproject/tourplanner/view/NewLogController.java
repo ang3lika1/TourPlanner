@@ -29,6 +29,7 @@ public class NewLogController {
     public DatePicker dateField;
 
     private final NewLogViewModel newLogViewModel;
+    public TextField distanceField;
 
     public NewLogController(NewLogViewModel newLogViewModel) {
         this.newLogViewModel = newLogViewModel;
@@ -39,10 +40,7 @@ public class NewLogController {
     }
 
     public void submit(ActionEvent actionEvent) {
-        //Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), 38, 34, routeinformation.getText());
-        //TourLog tourLog = new TourLog(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), routeinformation.getText());
-
-        TourLog tourLog = new TourLog(dateField.getValue(),commentField.getText(),difficultyField.getText(),Integer.parseInt(timeField.getText()),ratingField.getText() );
+        TourLog tourLog = new TourLog(dateField.getValue(),commentField.getText(),difficultyField.getText(),Integer.parseInt(timeField.getText()),Integer.parseInt(ratingField.getText()),Integer.parseInt(distanceField.getText()));
         NewTourLog.getInstance().setCreateTourLog(tourLog);
         NewTourLog.getInstance().setCancelled(false);
 
@@ -52,7 +50,7 @@ public class NewLogController {
     }
 
     public void cancel(ActionEvent actionEvent) {
-        NewTour.getInstance().setCancelled(true);
+        NewTourLog.getInstance().setCancelled(true);
 
         Node source = (Node)  actionEvent.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();

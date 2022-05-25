@@ -9,9 +9,10 @@ public class TourLog {
     private String comment;
     private String difficulty;
     private int totalTime;
-    private String rating;
+    private int rating;
+    private int distance;
 
-    public TourLog(int id, int tourId, LocalDate date, String comment, String difficulty, int totalTime, String rating) {
+    public TourLog(int id, int tourId, LocalDate date, String comment, String difficulty, int totalTime, int rating, int distance) {
         this.id = id;
         this.tourId = tourId;
         this.date = date;
@@ -19,14 +20,24 @@ public class TourLog {
         this.difficulty = difficulty;
         this.totalTime = totalTime;
         this.rating = rating;
+        this.distance = distance;
     }
 
-    public TourLog(LocalDate date, String comment, String difficulty, int totalTime, String rating) {
+    public TourLog(LocalDate date, String comment, String difficulty, int totalTime, int rating, int distance) {
         this.date = date;
         this.comment = comment;
         this.difficulty = difficulty;
         this.totalTime = totalTime;
         this.rating = rating;
+        this.distance = distance;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
     public int getTourId() {
@@ -77,11 +88,11 @@ public class TourLog {
         this.totalTime = totalTime;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

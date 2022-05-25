@@ -1,8 +1,8 @@
 package com.semesterproject.tourplanner.viewmodels;
 
 import com.semesterproject.tourplanner.bl.MapException;
+import com.semesterproject.tourplanner.bl.TourLogServiceImpl;
 import com.semesterproject.tourplanner.bl.TourServiceImpl;
-import com.semesterproject.tourplanner.dl.TourDAO;
 import com.semesterproject.tourplanner.models.Tour;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -14,6 +14,7 @@ import java.util.List;
 
 public class ToursOverviewModel {
     private static TourServiceImpl tourServiceImpl;
+    private static TourLogServiceImpl tourLogServiceImpl;
 
     public interface SelectionChangedListener {
         void changeSelection(Tour tour);
@@ -22,11 +23,14 @@ public class ToursOverviewModel {
     private List<SelectionChangedListener> listeners = new ArrayList<>();
 
     private ObservableList<Tour> observableTours = FXCollections.observableArrayList();
+    private ArrayList<Tour> allTours;
 
     public ToursOverviewModel()
     {
         tourServiceImpl = new TourServiceImpl();
-        setTours(TourDAO.getInstance().getAll());
+        tourLogServiceImpl = new TourLogServiceImpl();
+        //setTours(TourDAO.getInstance().getAll());
+        setTours(tourServiceImpl.getAllTours());
     }
 
     public ObservableList<Tour> getObservableTours() {
@@ -52,9 +56,13 @@ public class ToursOverviewModel {
         }
     }
 
-    public void setTours(List<Tour> tourItems) {
+    public void setTours(ArrayList<Tour> tourItems) {
         observableTours.clear();
+        for (Tour tour:tourItems) {
+            tour.setLog(tourLogServiceImpl.getAll(tour));
+        }
         observableTours.addAll(tourItems);
+        allTours=tourItems;
     }
 
 
@@ -69,8 +77,12 @@ public class ToursOverviewModel {
     }
 
     public void deleteTour(Tour tour) {
-
         tourServiceImpl.removeTour(tour);
         observableTours.remove(tour);
+        tourServiceImpl.removeTourImg(tour);
+    }
+
+    public ArrayList<Tour> getAllTours() {
+        return allTours;
     }
 }

@@ -45,7 +45,6 @@ public class NewTourController {
     }
 
     public void submit(ActionEvent actionEvent) {
-        //Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), 38, 34, routeinformation.getText());
         Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), routeinformation.getText());
 
         NewTour.getInstance().setCreateTour(tour);

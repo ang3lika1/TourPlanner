@@ -10,34 +10,52 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.UnitValue;
+import com.semesterproject.tourplanner.Application;
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
+import com.semesterproject.tourplanner.models.Tour;
+import com.semesterproject.tourplanner.models.TourLog;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ReportHelper {
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(ReportHelper.class);
+    private Tour tour;
+    //private String LOREM_IPSUM_TEXT;
+    private String MAPS_PNG;
+    private String TARGET_PDF;
+    private String target_pdf_summary;
 
 
-    public ReportHelper() throws FileNotFoundException {
+    public ReportHelper(Tour tour) throws FileNotFoundException {
+        this.tour = tour;
+        //LOREM_IPSUM_TEXT = "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        MAPS_PNG = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") + tour.getName() + ".jpg";
+        TARGET_PDF =  ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "report", "path") + tour.getName() + "_summary.pdf";
+        //target_pdf_summary = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "report", "path") + "summary.pdf";
     }
 
-    public static final String LOREM_IPSUM_TEXT = "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-    public static final String GOOGLE_MAPS_PNG = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") +  "Schland.jpg";
-    public static final String TARGET_PDF =  ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "report", "path") + "summary.pdf";
+    public ReportHelper() throws FileNotFoundException {
+        target_pdf_summary = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "report", "path") + "summary.pdf";
+    }
 
-    public static void generatePdf() throws IOException {
+
+    public void generatePdf() throws IOException {
         PdfWriter writer = new PdfWriter(TARGET_PDF);
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
-        Paragraph loremIpsumHeader = new Paragraph("Lorem Ipsum header...")
+        Paragraph loremIpsumHeader = new Paragraph(tour.getName() + " - Tour Report")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(14)
                 .setBold()
-                .setFontColor(ColorConstants.RED);
+                .setFontColor(ColorConstants.DARK_GRAY);
         document.add(loremIpsumHeader);
-        document.add(new Paragraph(LOREM_IPSUM_TEXT));
+        document.add(new Paragraph(tour.getDescription()));
 
-        Paragraph listHeader = new Paragraph("Lorem Ipsum ...")
+        Paragraph listHeader = new Paragraph("Tour Details")
                 .setFont(PdfFontFactory.createFont(StandardFonts.TIMES_BOLD))
                 .setFontSize(14)
                 .setBold()
@@ -46,48 +64,109 @@ public class ReportHelper {
                 .setSymbolIndent(12)
                 .setListSymbol("\u2022")
                 .setFont(PdfFontFactory.createFont(StandardFonts.TIMES_BOLD));
-        list.add(new ListItem("lorem ipsum 1"))
-                .add(new ListItem("lorem ipsum 2"))
-                .add(new ListItem("lorem ipsum 3"))
-                .add(new ListItem("lorem ipsum 4"))
-                .add(new ListItem("lorem ipsum 5"))
-                .add(new ListItem("lorem ipsum 6"));
+        list.add(new ListItem("start: "+ tour.getStart()))
+                .add(new ListItem("destination: " + tour.getDestination()))
+                .add(new ListItem("distance: "+ tour.getDistance()))
+                .add(new ListItem("planned time: "+ tour.getTime()))
+                .add(new ListItem("transport type: "+ tour.getTransport_type()));
         document.add(listHeader);
         document.add(list);
 
-        Paragraph tableHeader = new Paragraph("Lorem Ipsum Table ...")
+        Paragraph tableHeader = new Paragraph("Tour Logs")
+                .setFont(PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN))
+                .setFontSize(18)
+                .setBold()
+                .setFontColor(ColorConstants.GREEN);
+        document.add(tableHeader);
+        Table table = new Table(UnitValue.createPercentArray(6)).useAllAvailableWidth();
+        table.addHeaderCell(getHeaderCell("Date"));
+        table.addHeaderCell(getHeaderCell("Total Time"));
+        table.addHeaderCell(getHeaderCell("Distance"));
+        table.addHeaderCell(getHeaderCell("Comment"));
+        table.addHeaderCell(getHeaderCell("Difficulty"));
+        table.addHeaderCell(getHeaderCell("Rating"));
+        table.setFontSize(14).setBackgroundColor(ColorConstants.WHITE);
+
+        for(TourLog tourLog : tour.getLog()) {
+            table.addCell(String.valueOf(tourLog.getDate()));
+            table.addCell(String.valueOf(tourLog.getTotalTime()));
+            table.addCell(String.valueOf(tourLog.getDistance()));
+            table.addCell(tourLog.getComment());
+            table.addCell(tourLog.getDifficulty());
+            table.addCell(String.valueOf(tourLog.getRating()));
+        }
+        document.add(table);
+
+        document.add(new AreaBreak());
+
+        Paragraph imageHeader = new Paragraph(tour.getName() + " - Map Image")
+                .setFont(PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN))
+                .setFontSize(18)
+                .setBold()
+                .setFontColor(ColorConstants.GREEN);
+        document.add(imageHeader);
+        ImageData imageData = ImageDataFactory.create(MAPS_PNG);
+        document.add(new Image(imageData));
+
+        document.close();
+        writer.close();
+    }
+
+
+    private static Cell getHeaderCell(String s) {
+        return new Cell().add(new Paragraph(s)).setBold().setBackgroundColor(ColorConstants.GRAY);
+    }
+
+    public void generateSummary(ArrayList<Tour> allTours) throws IOException {
+        PdfWriter writer = new PdfWriter(target_pdf_summary);
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document = new Document(pdf);
+
+        Paragraph loremIpsumHeader = new Paragraph("Tours Summary")
+                .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
+                .setFontSize(14)
+                .setBold()
+                .setFontColor(ColorConstants.DARK_GRAY);
+        document.add(loremIpsumHeader);
+
+
+
+        Paragraph tableHeader = new Paragraph("Tour Statistics")
                 .setFont(PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN))
                 .setFontSize(18)
                 .setBold()
                 .setFontColor(ColorConstants.GREEN);
         document.add(tableHeader);
         Table table = new Table(UnitValue.createPercentArray(4)).useAllAvailableWidth();
-        table.addHeaderCell(getHeaderCell("Ipsum 1"));
-        table.addHeaderCell(getHeaderCell("Ipsum 2"));
-        table.addHeaderCell(getHeaderCell("Ipsum 3"));
-        table.addHeaderCell(getHeaderCell("Ipsum 4"));
+        table.addHeaderCell(getHeaderCell("Name"));
+        table.addHeaderCell(getHeaderCell("Average Time"));
+        table.addHeaderCell(getHeaderCell("Average Distance"));
+        table.addHeaderCell(getHeaderCell("Average Rating"));
         table.setFontSize(14).setBackgroundColor(ColorConstants.WHITE);
-        table.addCell("lorem 1");
-        table.addCell("lorem 2");
-        table.addCell("lorem 3");
-        table.addCell("lorem 4");
+
+        for (Tour tour:allTours) {
+            int avgTime=0;
+            int avgDistance=0;
+            int avgRating=0;
+            int i = 0;
+            for (TourLog tourLog : tour.getLog()) {
+                avgTime += tourLog.getTotalTime();
+                avgRating += tourLog.getRating();
+                avgDistance += tourLog.getDistance();
+                i++;
+            }
+            avgTime = avgTime/i;
+            avgDistance = avgDistance/i;
+            avgRating = avgRating/i;
+
+            table.addCell(tour.getName());
+            table.addCell(String.valueOf(avgTime));
+            table.addCell(String.valueOf(avgDistance));
+            table.addCell(String.valueOf(avgRating));
+        }
         document.add(table);
 
-        document.add(new AreaBreak());
-
-        Paragraph imageHeader = new Paragraph("Lorem Ipsum Image ...")
-                .setFont(PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN))
-                .setFontSize(18)
-                .setBold()
-                .setFontColor(ColorConstants.GREEN);
-        document.add(imageHeader);
-        ImageData imageData = ImageDataFactory.create(GOOGLE_MAPS_PNG);
-        document.add(new Image(imageData));
-
         document.close();
-    }
-
-    private static Cell getHeaderCell(String s) {
-        return new Cell().add(new Paragraph(s)).setBold().setBackgroundColor(ColorConstants.GRAY);
+        writer.close();
     }
 }

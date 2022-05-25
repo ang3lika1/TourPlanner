@@ -54,8 +54,8 @@ public class TourDAO implements DAO<Tour>{
     }
 
     @Override
-    public List<Tour> getAll() {
-        List<Tour> allTours= new ArrayList<>();
+    public ArrayList<Tour> getAll() {
+        ArrayList<Tour> allTours= new ArrayList<>();
         try {
             select = null;
             select = connection.prepareStatement("SELECT * FROM tour");
@@ -78,6 +78,7 @@ public class TourDAO implements DAO<Tour>{
                 Tour tour = new Tour(name, description, start, destination, transportType, distance, time, routeInfo, id);
                 allTours.add(tour);
             }
+            select.close();
             return allTours;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,6 +108,7 @@ public class TourDAO implements DAO<Tour>{
                 tour.setId(id);
                 logger.info("id returned: "+id);
             }
+            insert.close();
             return tour;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,6 +129,7 @@ public class TourDAO implements DAO<Tour>{
                 """);
             delete.setInt(1, tour.getId());
             delete.execute();
+            delete.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

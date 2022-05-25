@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class FileHelper {
     public static void openDefault(String f){
@@ -23,8 +25,12 @@ public class FileHelper {
         ImageIO.write(ImageHelper.toBufferedImage(image), type, file);
     }
 
-    public static void delFile(File file){
-        //no inspection ResultOfMethodCallIgnored
-        file.delete();
+    public static void delFile(Path pathToBeDeleted){
+        try {
+            Files.delete(pathToBeDeleted);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //file.delete();
     }
 }

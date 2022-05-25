@@ -24,7 +24,6 @@ public class TourDetailsViewModel {
     private final ObjectProperty<javafx.scene.image.Image> mapImg = new SimpleObjectProperty<>();
     private final DoubleProperty distance = new SimpleDoubleProperty();
     private final IntegerProperty time = new SimpleIntegerProperty();
-    private final StringProperty plannedTime = new SimpleStringProperty();
     private final StringProperty start = new SimpleStringProperty();
     private final StringProperty destination = new SimpleStringProperty();
     private final StringProperty transtype = new SimpleStringProperty();
@@ -138,9 +137,10 @@ public class TourDetailsViewModel {
             //DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
     }
 
-    public void setTourLogs(List<TourLog> logItems) {
+    public void setTourLogs(ArrayList<TourLog> logItems) {
         observableTourLogs.clear();
         observableTourLogs.addAll(logItems);
+        tour.setLog(logItems);
     }
 
     public void addNewTourLog() throws IOException {

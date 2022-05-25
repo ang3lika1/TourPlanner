@@ -24,14 +24,10 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        ReportHelper.generatePdf();
 
         Parent root = DependencyInjection.load("MainWindow.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
 
         Scene scene = new Scene(root, 800, 600);
-
-        //TestDAO testDAO = new TestDAO();
-        //testDAO.create();
         primaryStage.setScene(scene);
         primaryStage.setTitle("Tour Planner");
         primaryStage.show();

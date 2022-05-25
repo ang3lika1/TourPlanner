@@ -6,6 +6,7 @@ import com.semesterproject.tourplanner.dl.TourLogDAO;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TourLogServiceImpl implements TourLogService{
@@ -35,7 +36,7 @@ public class TourLogServiceImpl implements TourLogService{
     }
 
     @Override
-    public List<TourLog> getAll(Tour tour) {
+    public ArrayList<TourLog> getAll(Tour tour) {
         return tourLogDAO.getAll(tour.getId());
     }
 

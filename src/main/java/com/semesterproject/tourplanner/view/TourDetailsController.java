@@ -10,14 +10,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Locale;
@@ -39,6 +42,8 @@ public class TourDetailsController {
     public TextField startTextField;
     public TextField destinationTextField;
     public TextField transptypeTextField;
+    public AnchorPane anchorPaneDetails;
+    public Button editButton;
 
     @FXML
     private TableView<TourLog> tourLogListItems;
@@ -46,6 +51,8 @@ public class TourDetailsController {
     private TableColumn<TourLog, LocalDate> date;
     @FXML
     private TableColumn<TourLog, Integer> totalTime;
+    @FXML
+    private TableColumn<TourLog, Integer> distance;
     @FXML
     private TableColumn<TourLog, String> comment;
     @FXML
@@ -66,6 +73,7 @@ public class TourDetailsController {
     @FXML
     void initialize() {
         nameTextField.textProperty().bindBidirectional(tourDetailsViewModel.nameProperty());
+        //nameTextField.setEditable(false);
         descriptionTextField.textProperty().bindBidirectional(tourDetailsViewModel.descriptionProperty());
         informationTextField.textProperty().bindBidirectional(tourDetailsViewModel.informationProperty());
         startTextField.textProperty().bindBidirectional(tourDetailsViewModel.startProperty());
@@ -82,6 +90,7 @@ public class TourDetailsController {
         Bindings.bindContent(tourlogs, tourDetailsViewModel.ListProperty());
         date.setCellValueFactory(new PropertyValueFactory<TourLog, LocalDate>("date"));
         totalTime.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("totalTime"));
+        distance.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("distance"));
         comment.setCellValueFactory(new PropertyValueFactory<TourLog, String>("comment"));
         difficulty.setCellValueFactory(new PropertyValueFactory<TourLog, String>("difficulty"));
         rating.setCellValueFactory(new PropertyValueFactory<TourLog, String>("rating"));
@@ -107,5 +116,19 @@ public class TourDetailsController {
 
     public void onButtonRemoveLog(ActionEvent actionEvent) {
         tourDetailsViewModel.deleteTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
+    }
+
+    public void editTour(ActionEvent actionEvent) throws IOException {
+        nameTextField.setEditable(true);
+        transptypeTextField.setEditable(true);
+        descriptionTextField.setEditable(true);
+        distanceField.setEditable(true);
+        timeField.setEditable(true);
+
+        //Parent parent = DependencyInjection.load("TourDeatails.fxml", Locale.ENGLISH);
+        Button button = new Button("save");
+        button.setLayoutX(500);
+        button.setLayoutY(400);
+        anchorPaneDetails.getChildren().add(button);
     }
 }
