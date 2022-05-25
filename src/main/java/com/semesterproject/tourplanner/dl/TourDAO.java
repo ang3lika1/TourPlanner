@@ -17,6 +17,7 @@ public class TourDAO implements DAO<Tour>{
     static PreparedStatement insert = null;
     static PreparedStatement select = null;
     static PreparedStatement delete = null;
+    static PreparedStatement update = null;
     private static TourDAO instance = null;
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourDAO.class);
 
@@ -73,9 +74,8 @@ public class TourDAO implements DAO<Tour>{
                 String transportType = result.getString(6);
                 int distance = result.getInt(7);
                 int time = result.getInt(8);
-                String routeInfo = result.getString(9);
 
-                Tour tour = new Tour(name, description, start, destination, transportType, distance, time, routeInfo, id);
+                Tour tour = new Tour(name, description, start, destination, transportType, distance, time, id);
                 allTours.add(tour);
             }
             select.close();
@@ -90,8 +90,8 @@ public class TourDAO implements DAO<Tour>{
     public Tour create(Tour tour) {
         try{
             insert = connection.prepareStatement("""
-                INSERT INTO tour(name, description, start, destination, transport_type, distance, time, route_information)
-                VALUES(?,?,?,?,?,?,?,?) RETURNING id
+                INSERT INTO tour(name, description, start, destination, transport_type, distance, time)
+                VALUES(?,?,?,?,?,?,?) RETURNING id
                 """);
             insert.setString(1, tour.getName());
             insert.setString(2, tour.getDescription());
@@ -100,7 +100,6 @@ public class TourDAO implements DAO<Tour>{
             insert.setString(5, tour.getTransport_type());
             insert.setDouble(6, tour.getDistance());
             insert.setInt(7, tour.getTime());
-            insert.setString(8, tour.getRoute_information());
             ResultSet result = insert.executeQuery();
 
             if (result.next()) {
@@ -117,8 +116,27 @@ public class TourDAO implements DAO<Tour>{
     }
 
     @Override
-    public void update(Tour tour, List<?> params) {
+    public Tour update(Tour tour) {
+        try{
+            update = connection.prepareStatement("""
+                UPDATE tour 
+                SET name=?, description=?, transport_type=?, distance=?, time=?
+                WHERE id=?
+                """);
+            update.setString(1, tour.getName());
+            update.setString(2, tour.getDescription());
+            update.setString(3, tour.getTransport_type());
+            update.setDouble(4, tour.getDistance());
+            update.setInt(5, tour.getTime());
+            update.setInt(6,tour.getId());
+            update.execute();
 
+            update.close();
+            return tour;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface DAO<T> {
 
     T create(Tour tour);
 
-    void update(T t, List<?> params);
+    T update(T t);
 
     void delete(T t);
 }

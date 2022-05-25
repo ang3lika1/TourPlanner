@@ -68,7 +68,7 @@ public class ToursOverviewController {
                 reportHelper = new ReportHelper(tourListItem.getSelectionModel().getSelectedItem());
                 reportHelper.generatePdf();
 
-                logger.info("report created");
+                //logger.info("report created");
             } catch (IOException e) {
                 e.printStackTrace();
                 logger.error(e.getMessage());

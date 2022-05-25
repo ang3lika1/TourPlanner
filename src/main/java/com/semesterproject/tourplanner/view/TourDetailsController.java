@@ -34,8 +34,6 @@ public class TourDetailsController {
     @FXML
     public TextField descriptionTextField;
     @FXML
-    public TextField informationTextField;
-    @FXML
     private final TourDetailsViewModel tourDetailsViewModel;
     public TextField distanceField;
     public TextField timeField;
@@ -59,7 +57,9 @@ public class TourDetailsController {
     private TableColumn<TourLog, String> difficulty;
     @FXML
     private TableColumn<TourLog, String> rating;
-    private ObservableList<TourLog> tourlogs  = FXCollections.observableArrayList();;
+    private ObservableList<TourLog> tourlogs  = FXCollections.observableArrayList();
+
+    private Button saveButton;
 
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {
@@ -75,7 +75,6 @@ public class TourDetailsController {
         nameTextField.textProperty().bindBidirectional(tourDetailsViewModel.nameProperty());
         //nameTextField.setEditable(false);
         descriptionTextField.textProperty().bindBidirectional(tourDetailsViewModel.descriptionProperty());
-        informationTextField.textProperty().bindBidirectional(tourDetailsViewModel.informationProperty());
         startTextField.textProperty().bindBidirectional(tourDetailsViewModel.startProperty());
         destinationTextField.textProperty().bindBidirectional(tourDetailsViewModel.destinationProperty());
         transptypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transtypeProperty());
@@ -125,10 +124,21 @@ public class TourDetailsController {
         distanceField.setEditable(true);
         timeField.setEditable(true);
 
-        //Parent parent = DependencyInjection.load("TourDeatails.fxml", Locale.ENGLISH);
-        Button button = new Button("save");
-        button.setLayoutX(500);
-        button.setLayoutY(400);
-        anchorPaneDetails.getChildren().add(button);
+        saveButton = new Button("save");
+        saveButton.setLayoutX(500);
+        saveButton.setLayoutY(400);
+        saveButton.setOnAction(e->updateTour());
+        anchorPaneDetails.getChildren().add(saveButton);
+    }
+
+    private void updateTour() {
+        tourDetailsViewModel.updateTourModel();
+
+        nameTextField.setEditable(false);
+        transptypeTextField.setEditable(false);
+        descriptionTextField.setEditable(false);
+        distanceField.setEditable(false);
+        timeField.setEditable(false);
+        anchorPaneDetails.getChildren().remove(saveButton);
     }
 }

@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ReportHelper {
-    private static final LoggerWrapper logger = LoggerFactory.getLogger(ReportHelper.class);
+    //private static final LoggerWrapper logger = LoggerFactory.getLogger(ReportHelper.class);
     private Tour tour;
     //private String LOREM_IPSUM_TEXT;
     private String MAPS_PNG;
@@ -137,32 +137,42 @@ public class ReportHelper {
                 .setBold()
                 .setFontColor(ColorConstants.GREEN);
         document.add(tableHeader);
-        Table table = new Table(UnitValue.createPercentArray(4)).useAllAvailableWidth();
+        Table table = new Table(UnitValue.createPercentArray(5)).useAllAvailableWidth();
         table.addHeaderCell(getHeaderCell("Name"));
         table.addHeaderCell(getHeaderCell("Average Time"));
         table.addHeaderCell(getHeaderCell("Average Distance"));
         table.addHeaderCell(getHeaderCell("Average Rating"));
+        table.addHeaderCell(getHeaderCell("Number of Logs"));
         table.setFontSize(14).setBackgroundColor(ColorConstants.WHITE);
 
         for (Tour tour:allTours) {
-            int avgTime=0;
-            int avgDistance=0;
-            int avgRating=0;
-            int i = 0;
-            for (TourLog tourLog : tour.getLog()) {
-                avgTime += tourLog.getTotalTime();
-                avgRating += tourLog.getRating();
-                avgDistance += tourLog.getDistance();
-                i++;
-            }
-            avgTime = avgTime/i;
-            avgDistance = avgDistance/i;
-            avgRating = avgRating/i;
+            if(!tour.getLog().isEmpty()) {
+                int avgTime = 0;
+                int avgDistance = 0;
+                int avgRating = 0;
+                int i = 0;
+                for (TourLog tourLog : tour.getLog()) {
+                    avgTime += tourLog.getTotalTime();
+                    avgRating += tourLog.getRating();
+                    avgDistance += tourLog.getDistance();
+                    i++;
+                }
+                avgTime = avgTime / i;
+                avgDistance = avgDistance / i;
+                avgRating = avgRating / i;
 
-            table.addCell(tour.getName());
-            table.addCell(String.valueOf(avgTime));
-            table.addCell(String.valueOf(avgDistance));
-            table.addCell(String.valueOf(avgRating));
+                table.addCell(tour.getName());
+                table.addCell(String.valueOf(avgTime));
+                table.addCell(String.valueOf(avgDistance));
+                table.addCell(String.valueOf(avgRating));
+                table.addCell(String.valueOf(i));
+            }else{
+                table.addCell(tour.getName());
+                table.addCell("planned: " + String.valueOf(tour.getTime()));
+                table.addCell("planned: " + String.valueOf(tour.getDistance()));
+                table.addCell("-");
+                table.addCell("no logs yet");
+            }
         }
         document.add(table);
 
