@@ -7,18 +7,24 @@ import com.semesterproject.tourplanner.dl.TourLogDAO;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TourServiceImpl implements TourService{
     private static TourDAO tourDAO;
+    private static TourLogServiceImpl tourLogServiceImpl;
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourServiceImpl.class);
 
     public TourServiceImpl() {
         tourDAO = TourDAO.getInstance();
+        tourLogServiceImpl = new TourLogServiceImpl();
     }
 
     public static ArrayList<Tour> getAllTours() {
-        return (ArrayList<Tour>) tourDAO.getAll();
+        return tourDAO.getAll();
     }
 
     @Override
@@ -36,9 +42,16 @@ public class TourServiceImpl implements TourService{
 
     @Override
     public void removeTour(Tour tour){
+        tourLogServiceImpl.removeAllTourLogs(tour);
         int deletedTour = tour.getId();
         tourDAO.delete(tour);
+        //FileHelper.delFile(getMapImgPath(tour.getName()));
         logger.info("Tour with ID: " + deletedTour + " deleted!");
+    }
+
+    public void removeTourImg(Tour tour){
+        Path filePath = Paths.get(getMapImgPath(tour.getName()));
+        FileHelper.delFile(filePath);
     }
 
 

@@ -3,7 +3,11 @@ package com.semesterproject.tourplanner.bl;
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.dl.TourLogDAO;
+import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TourLogServiceImpl implements TourLogService{
     private static TourLogDAO tourLogDAO;
@@ -22,7 +26,19 @@ public class TourLogServiceImpl implements TourLogService{
     }
 
     @Override
-    public void removeTour(TourLog tourLog) {
-
+    public void removeTourLog(TourLog tourLog) {
+        tourLogDAO.delete(tourLog);
     }
+
+    @Override
+    public void removeAllTourLogs(Tour tour) {
+        tourLogDAO.deleteAll(tour);
+    }
+
+    @Override
+    public ArrayList<TourLog> getAll(Tour tour) {
+        return tourLogDAO.getAll(tour.getId());
+    }
+
+
 }

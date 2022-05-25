@@ -1,19 +1,13 @@
 package com.semesterproject.tourplanner.viewmodels;
 
-import com.semesterproject.tourplanner.bl.MapException;
 import com.semesterproject.tourplanner.bl.TourLogServiceImpl;
-import com.semesterproject.tourplanner.bl.TourServiceImpl;
-import com.semesterproject.tourplanner.dl.TourDAO;
-import com.semesterproject.tourplanner.dl.TourLogDAO;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,10 +24,10 @@ public class TourDetailsViewModel {
     private final ObjectProperty<javafx.scene.image.Image> mapImg = new SimpleObjectProperty<>();
     private final DoubleProperty distance = new SimpleDoubleProperty();
     private final IntegerProperty time = new SimpleIntegerProperty();
-    private final StringProperty plannedTime = new SimpleStringProperty();
     private final StringProperty start = new SimpleStringProperty();
     private final StringProperty destination = new SimpleStringProperty();
     private final StringProperty transtype = new SimpleStringProperty();
+    final ListProperty<TourLog> tourlogs = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     private List<TourDetailsViewModel.SelectionChangedListener> listeners = new ArrayList<>();
     private ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
@@ -94,12 +88,14 @@ public class TourDetailsViewModel {
         return mapImg;
     }
 
-
     public DoubleProperty distanceProperty() {
         return distance;
     }
     public IntegerProperty timeProperty() {
         return time;
+    }
+    public ObservableList<TourLog> ListProperty(){
+        return tourlogs;
     }
 
     public void setTourModel(Tour tourModel) {
@@ -119,14 +115,15 @@ public class TourDetailsViewModel {
         distance.setValue(tourModel.getDistance());
         time.setValue(tourModel.getTime());
         isInitValue = false;
-        setTourLogs(TourLogDAO.getInstance().getAll(tour.getId()));
+        //set observableTourLogs with data from database
+        setTourLogs(tourLogServiceImpl.getAll(tour));
+        //tourlogs is returned as Listproperty
+        tourlogs.setValue(observableTourLogs);
     }
 
     public void setTourMap(Tour tourModel) {
         isInitValue = true;
         if( tourModel ==null ) {
-            // select the first in the list
-           //mapImg.setValue("");
             return;
         }
 
@@ -140,9 +137,10 @@ public class TourDetailsViewModel {
             //DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
     }
 
-    public void setTourLogs(List<TourLog> logItems) {
+    public void setTourLogs(ArrayList<TourLog> logItems) {
         observableTourLogs.clear();
         observableTourLogs.addAll(logItems);
+        tour.setLog(logItems);
     }
 
     public void addNewTourLog() throws IOException {
@@ -156,9 +154,8 @@ public class TourDetailsViewModel {
     }
 
     public void deleteTourLog(TourLog tourLog) {
-        tourLogServiceImpl.removeTour(tourLog);
+        tourLogServiceImpl.removeTourLog(tourLog);
         observableTourLogs.remove(tourLog);
     }
-
 
 }

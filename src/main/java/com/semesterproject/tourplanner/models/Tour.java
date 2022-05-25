@@ -1,21 +1,23 @@
 package com.semesterproject.tourplanner.models;
 
-import com.semesterproject.tourplanner.bl.ConfigHelper;
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.bl.MapQuest;
 import com.semesterproject.tourplanner.bl.TourServiceImpl;
+import com.semesterproject.tourplanner.dl.TourDAO;
 import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Tour {
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(Tour.class);
     private String name;
     private String description;
     private String start;
@@ -26,6 +28,7 @@ public class Tour {
     private String route_information;
     private MapQuest map;
     private int id;
+    private Image image;
 
     private ArrayList<TourLog> log;
 
@@ -63,17 +66,15 @@ public class Tour {
     }
 
     public Image getImage() {
-        BufferedImage img = null;
-        //String filename = ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + TourServiceImpl.getMapImgPath(name);
         String filename = TourServiceImpl.getMapImgPath(name);
         Image image = null;
         try {
-            InputStream stream = new FileInputStream(filename);
+            InputStream stream = new ByteArrayInputStream(Files.readAllBytes(Path.of(filename)));
+            //InputStream stream = new FileInputStream(filename);
             image = new Image(stream);
-            // img = ImageIO.read(new File(filename));
         } catch (IOException e) {
+            logger.warn(String.valueOf(e));
         }
-        //img = new Image(ConfigHelper.getIniString(ConfigHelper.getStandartConfig(), "map", "file_pre") + new File(TourServiceImpl.getMapImgPath(name)).getAbsolutePath());
         return image;
     }
 
@@ -138,7 +139,10 @@ public class Tour {
     }
 
     public void setDistance(double distance) {
-        this.distance = distance;
+        if(distance >= 0)
+            this.distance = distance;
+        else
+            throw new IllegalArgumentException("distance must be greater than or equal to 0");
     }
 
     public int getTime() {

@@ -5,28 +5,39 @@ import java.time.LocalDate;
 public class TourLog {
     private int id;
     private int tourId;
-    private LocalDate datum;
+    private LocalDate date;
     private String comment;
     private String difficulty;
     private int totalTime;
-    private String rating;
+    private int rating;
+    private int distance;
 
-    public TourLog(int id, int tourId, LocalDate datum, String comment, String difficulty, int totalTime, String rating) {
+    public TourLog(int id, int tourId, LocalDate date, String comment, String difficulty, int totalTime, int rating, int distance) {
         this.id = id;
         this.tourId = tourId;
-        this.datum = datum;
+        this.date = date;
         this.comment = comment;
         this.difficulty = difficulty;
         this.totalTime = totalTime;
         this.rating = rating;
+        this.distance = distance;
     }
 
-    public TourLog(LocalDate datum, String comment, String difficulty, int totalTime, String rating) {
-        this.datum = datum;
+    public TourLog(LocalDate date, String comment, String difficulty, int totalTime, int rating, int distance) {
+        this.date = date;
         this.comment = comment;
         this.difficulty = difficulty;
         this.totalTime = totalTime;
         this.rating = rating;
+        this.distance = distance;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
     public int getTourId() {
@@ -45,12 +56,12 @@ public class TourLog {
         this.id = id;
     }
 
-    public LocalDate getDatum() {
-        return datum;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDatum(LocalDate datum) {
-        this.datum = datum;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public String getComment() {
@@ -77,11 +88,11 @@ public class TourLog {
         this.totalTime = totalTime;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

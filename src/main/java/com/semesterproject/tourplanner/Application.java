@@ -2,6 +2,7 @@ package com.semesterproject.tourplanner;
 
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
+import com.semesterproject.tourplanner.bl.ReportHelper;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -27,9 +28,6 @@ public class Application extends javafx.application.Application {
         Parent root = DependencyInjection.load("MainWindow.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
 
         Scene scene = new Scene(root, 800, 600);
-
-        //TestDAO testDAO = new TestDAO();
-        //testDAO.create();
         primaryStage.setScene(scene);
         primaryStage.setTitle("Tour Planner");
         primaryStage.show();
