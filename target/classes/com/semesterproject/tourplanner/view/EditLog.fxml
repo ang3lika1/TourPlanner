@@ -18,19 +18,19 @@
                 </font>
             </Label>
             <Button fx:id="saveButton" layoutX="476.0" layoutY="339.0" mnemonicParsing="false" onAction="#submit" text="save" />
-            <TextField fx:id="difficultyField" layoutX="89.0" layoutY="169.0" />
-            <TextField fx:id="ratingField" layoutX="89.0" layoutY="243.0" />
-            <Label fx:id="dateLabel" layoutX="95.0" layoutY="71.0" prefHeight="17.0" prefWidth="70.0" text="Date:" />
+            <TextField fx:id="difficultyField" layoutX="89.0" layoutY="169.0" editable="true"/>
+            <TextField fx:id="ratingField" layoutX="89.0" layoutY="243.0" editable="true"/>
+            <Label fx:id="dateLabel" layoutX="95.0" layoutY="71.0" prefHeight="17.0" prefWidth="70.0" text="Date:"/>
             <Label fx:id="difficultyLabel" layoutX="95.0" layoutY="145.0" prefHeight="17.0" prefWidth="52.0" text="Difficulty:" />
             <Label fx:id="ratingLabel" layoutX="95.0" layoutY="217.0" text="Rating:" />
             <Button fx:id="cancelButton" layoutX="31.0" layoutY="339.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-            <TextField fx:id="commentField" layoutX="366.0" layoutY="99.0" />
+            <TextField fx:id="commentField" layoutX="366.0" layoutY="99.0" editable="true"/>
             <Label fx:id="commentLabel" layoutX="372.0" layoutY="71.0" prefHeight="17.0" prefWidth="100.0" text="Comment:" />
-            <TextField fx:id="timeField" layoutX="364.0" layoutY="169.0" promptText="..." />
+            <TextField fx:id="timeField" layoutX="364.0" layoutY="169.0" promptText="..." editable="true"/>
             <Label fx:id="timeLabel" layoutX="370.0" layoutY="141.0" prefHeight="17.0" prefWidth="78.0" text="Total Time:" />
-            <TextField fx:id="distanceField" layoutX="364.0" layoutY="243.0"/>
+            <TextField fx:id="distanceField" layoutX="364.0" layoutY="243.0" editable="true"/>
             <Label fx:id="distanceLabel" layoutX="370.0" layoutY="217.0" prefHeight="17.0" prefWidth="78.0" text="Distance:" />
-            <DatePicker fx:id="dateField" layoutX="89.0" layoutY="99.0" />
+            <DatePicker fx:id="dateField" layoutX="89.0" layoutY="99.0" editable="true"/>
         </children>
     </AnchorPane>
 </VBox>

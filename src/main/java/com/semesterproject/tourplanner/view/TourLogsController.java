@@ -54,6 +54,8 @@ public class TourLogsController {
         difficulty.setCellValueFactory(new PropertyValueFactory<TourLog, String>("difficulty"));
         rating.setCellValueFactory(new PropertyValueFactory<TourLog, String>("rating"));
         tourLogListItems.setItems(tourlogs);
+
+        tourLogListItems.setItems(tourLogViewModel.getObservableTourLogs());
         tourLogListItems.getSelectionModel().selectedItemProperty().addListener(tourLogViewModel.getChangeListener());
     }
     @FXML
@@ -87,8 +89,7 @@ public class TourLogsController {
         stage.showAndWait();
 
 
-        System.out.println(tourLogListItems.getSelectionModel().getSelectedItem().getDifficulty());
-        tourLogViewModel.editTourLog();
+        tourLogViewModel.updateTourLogModel();   //update in observablelist
         //tourLogViewModel.editTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
         Button deleteButton = new Button("delete");
         deleteButton.setOnAction(this::onButtonRemoveLog);

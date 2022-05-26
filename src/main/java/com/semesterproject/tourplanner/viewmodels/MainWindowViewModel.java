@@ -23,7 +23,6 @@ public class MainWindowViewModel {
     private void selectTour(Tour selectedTour){
         tourDetailsViewModel.setTourModel(selectedTour);
         tourDetailsViewModel.setTourMap(selectedTour);
-
     }
 
 

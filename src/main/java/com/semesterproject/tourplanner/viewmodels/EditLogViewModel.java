@@ -9,7 +9,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class EditLogViewModel {
-    private static TourLogServiceImpl tourLogServiceImpl;
+    private TourLogServiceImpl tourLogServiceImpl;
+    private TourLog tourLog;
     private volatile boolean isInitValue = false;
     private final StringProperty difficulty = new SimpleStringProperty();
     private final IntegerProperty rating = new SimpleIntegerProperty();
@@ -39,9 +40,24 @@ public class EditLogViewModel {
         return date;
     }
 
+    public void updateLog(){
+        if( !isInitValue ) {
+         //SET date=?, comment=?, difficulty=?, total_time=?, rating=?, distance=?
+            tourLog.setDate(date.get());
+            tourLog.setComment(comment.get());
+            tourLog.setDifficulty(difficulty.get());
+            tourLog.setTotalTime(totalTime.get());
+            tourLog.setRating(rating.get());
+            tourLog.setDistance(distance.get());
+
+            TourLog tourLogDB = tourLogServiceImpl.updateTourLog(tourLog);
+            NewTourLog.getInstance().setCreateTourLog(tourLogDB);
+        }
+    }
 
     public void setTourLog(TourLog tourLog) {
         isInitValue = true;
+        this.tourLog=tourLog;
         difficulty.setValue(tourLog.getDifficulty() );
         rating.setValue(tourLog.getRating());
         distance.setValue(tourLog.getDistance());
@@ -49,6 +65,5 @@ public class EditLogViewModel {
         date.setValue(tourLog.getDate());
         totalTime.setValue(tourLog.getTotalTime());
         isInitValue = false;
-
     }
 }

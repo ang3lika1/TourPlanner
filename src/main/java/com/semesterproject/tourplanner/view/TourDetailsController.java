@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.converter.NumberStringConverter;
 
 import java.io.IOException;
 
@@ -55,6 +56,7 @@ public class TourDetailsController {
     public TourDetailsViewModel getTourDetailsViewModel() {
         return tourDetailsViewModel;
     }
+    NumberStringConverter converter = new NumberStringConverter();
 
     @FXML
     void initialize() {
@@ -64,12 +66,9 @@ public class TourDetailsController {
         startTextField.textProperty().bindBidirectional(tourDetailsViewModel.startProperty());
         destinationTextField.textProperty().bindBidirectional(tourDetailsViewModel.destinationProperty());
         transptypeTextField.textProperty().bindBidirectional(tourDetailsViewModel.transtypeProperty());
-        distanceField.textProperty().bind(Bindings.createStringBinding(
-                () -> Double.toString(tourDetailsViewModel.distanceProperty().get()),
-                tourDetailsViewModel.distanceProperty()));
-        timeField.textProperty().bind(Bindings.createStringBinding(
-                () -> Integer.toString(tourDetailsViewModel.timeProperty().get()),
-                tourDetailsViewModel.timeProperty()));
+
+        distanceField.textProperty().bindBidirectional(tourDetailsViewModel.distanceProperty(), converter);
+        timeField.textProperty().bindBidirectional(tourDetailsViewModel.timeProperty(), converter);
         mapImg.imageProperty().bindBidirectional(tourDetailsViewModel.mapImage());
 
         //Bindings.bindContent(tourlogs, tourDetailsViewModel.ListProperty());

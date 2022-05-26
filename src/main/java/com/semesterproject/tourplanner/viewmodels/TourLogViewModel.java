@@ -21,6 +21,7 @@ public class TourLogViewModel {
 
     public TourLogViewModel() {
         tourLogServiceImpl = new TourLogServiceImpl();
+        //observableTourLogs.addListener( (arg, oldVal, newVal)->updateTourLogModel());
     }
 
     final ListProperty<TourLog> tourlogs = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -90,14 +91,11 @@ public class TourLogViewModel {
         editLogViewModel.setTourLog(tourLog);
     }
 
-    public void editTourLog() throws IOException {
+    public void updateTourLogModel() {
         TourLog tourLog = NewTourLog.getInstance().getCreateTourLog();
-        //editLogViewModel.setTourLog(tourLog);
         if(!NewTourLog.getInstance().isCancelled()) {
-            //tourLog.setTourId(tour.getId());
-            //observableTourLogs.remove(tourLog);
-            TourLog tourLogDB = tourLogServiceImpl.updateTourLog(tourLog);
-            observableTourLogs.add(tourLogDB);
+            observableTourLogs.remove(tourLog);
+            observableTourLogs.add(tourLog);
         }
     }
 

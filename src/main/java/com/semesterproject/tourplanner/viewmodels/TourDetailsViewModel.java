@@ -43,6 +43,10 @@ public class TourDetailsViewModel {
         tourServiceImpl = new TourServiceImpl();
         name.addListener( (arg, oldVal, newVal)->updateTourModel());
     }
+
+    private void selectTourLog(TourLog selectedTourLog) {
+        tourLogViewModel.setTourLogToEdit(selectedTourLog);
+    }
     /*public interface SelectionChangedListener {
         void changeLogSelection(TourLog tourlog);
     }
@@ -100,6 +104,8 @@ public class TourDetailsViewModel {
 
     public void setTourLogViewModel(TourLogViewModel tourLogViewModel) {
         this.tourLogViewModel = tourLogViewModel;
+        if(isInitValue=false)
+            this.tourLogViewModel.addSelectionChangedListener(this::selectTourLog);
     }
 
     public void setTourModel(Tour tourModel) {
