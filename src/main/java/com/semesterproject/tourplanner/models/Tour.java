@@ -25,24 +25,22 @@ public class Tour {
     private String transport_type;
     private double distance;
     private int time;
-    private String route_information;
     private MapQuest map;
     private int id;
     private Image image;
 
     private ArrayList<TourLog> log;
 
-    public Tour(String name, String description, String start, String destination, String transport_type, String route_information) {
+    public Tour(String name, String description, String start, String destination, String transport_type) {
         this.name = name;
         this.description = description;
         this.start = start;
         this.destination = destination;
         this.transport_type = transport_type;
-        this.route_information = route_information;
         this.log = new ArrayList<>();
     }
 
-    public Tour(String name, String description, String start, String destination, String transport_type, int distance, int time, String route_information) {
+    public Tour(String name, String description, String start, String destination, String transport_type, int distance, int time) {
         this.name = name;
         this.description = description;
         this.start = start;
@@ -50,10 +48,9 @@ public class Tour {
         this.transport_type = transport_type;
         this.distance = distance;
         this.time = time;
-        this.route_information = route_information;
     }
 
-    public Tour(String name, String description, String start, String destination, String transport_type, double distance, int time, String route_information, int id) {
+    public Tour(String name, String description, String start, String destination, String transport_type, double distance, int time, int id) {
         this.name = name;
         this.description = description;
         this.start = start;
@@ -61,7 +58,6 @@ public class Tour {
         this.transport_type = transport_type;
         this.distance = distance;
         this.time = time;
-        this.route_information = route_information;
         this.id = id;
     }
 
@@ -151,14 +147,6 @@ public class Tour {
 
     public void setTime(int time) {
         this.time = time;
-    }
-
-    public String getRoute_information() {
-        return route_information;
-    }
-
-    public void setRoute_information(String route_information) {
-        this.route_information = route_information;
     }
 
     public TourLog getLog(int id){

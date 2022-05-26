@@ -62,14 +62,7 @@
                             <Font size="18.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="informationTextField" layoutX="38.0" layoutY="433.0" prefHeight="27.0"
-                               prefWidth="525.0"/>
-                    <Label layoutX="38.0" layoutY="408.0" prefHeight="27.0" prefWidth="170.0" text="Route Information:">
-                        <font>
-                            <Font size="18.0"/>
-                        </font>
-                    </Label>
-                    <Button fx:id="editButton" text="edit" onAction="#editTour" layoutX="600" layoutY="400"/>
+                    <Button fx:id="editButton" text="edit" onAction="#editTour" layoutX="500" layoutY="400"/>
                 </AnchorPane>
             </Tab>
         </TabPane>

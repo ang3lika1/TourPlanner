@@ -1,6 +1,7 @@
 package com.semesterproject.tourplanner.viewmodels;
 
 import com.semesterproject.tourplanner.bl.TourLogServiceImpl;
+import com.semesterproject.tourplanner.bl.TourServiceImpl;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 import javafx.beans.property.*;
@@ -15,12 +16,12 @@ import java.util.List;
 
 public class TourDetailsViewModel {
     private static TourLogServiceImpl tourLogServiceImpl;
+    private static TourServiceImpl tourServiceImpl;
     private Tour tour;
     private volatile boolean isInitValue = false;
 
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
-    private final StringProperty information = new SimpleStringProperty();
     private final ObjectProperty<javafx.scene.image.Image> mapImg = new SimpleObjectProperty<>();
     private final DoubleProperty distance = new SimpleDoubleProperty();
     private final IntegerProperty time = new SimpleIntegerProperty();
@@ -34,6 +35,7 @@ public class TourDetailsViewModel {
 
     public TourDetailsViewModel() {
         tourLogServiceImpl = new TourLogServiceImpl();
+        tourServiceImpl = new TourServiceImpl();
         name.addListener( (arg, oldVal, newVal)->updateTourModel());
     }
     public interface SelectionChangedListener {
@@ -66,13 +68,8 @@ public class TourDetailsViewModel {
     public StringProperty nameProperty() {
         return name;
     }
-
     public StringProperty descriptionProperty() {
         return description;
-    }
-
-    public StringProperty informationProperty() {
-        return information;
     }
     public StringProperty startProperty() {
         return start;
@@ -83,11 +80,9 @@ public class TourDetailsViewModel {
     public StringProperty transtypeProperty() {
         return transtype;
     }
-
     public ObjectProperty<Image> mapImage(){
         return mapImg;
     }
-
     public DoubleProperty distanceProperty() {
         return distance;
     }
@@ -108,7 +103,6 @@ public class TourDetailsViewModel {
         this.tour = tourModel;
         name.setValue( tourModel.getName() );
         description.setValue( tourModel.getDescription() );
-        information.setValue( tourModel.getRoute_information() );
         start.setValue( tourModel.getStart() );
         destination.setValue( tourModel.getDestination() );
         transtype.setValue( tourModel.getTransport_type() );
@@ -132,9 +126,18 @@ public class TourDetailsViewModel {
         isInitValue = false;
     }
 
-    private void updateTourModel() {
-        //if( !isInitValue )
+    public void updateTourModel() {
+        if( !isInitValue ) {
+            //SET name=?, description=?, transport_type=?, distance=?, time=?
+            tour.setName(name.get());
+            tour.setDescription(description.get());
+            tour.setTransport_type(transtype.get());
+            tour.setDistance(distance.get());
+            tour.setTime(time.get());
+
+            tourServiceImpl.updateTour(tour);
             //DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
+        }
     }
 
     public void setTourLogs(ArrayList<TourLog> logItems) {

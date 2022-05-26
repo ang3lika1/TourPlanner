@@ -18,7 +18,7 @@ class TourTest {
 
     @BeforeEach
     void setUp() {
-        tour = new Tour("testName", "testDescription", "Wien", "Linz", "testTransType",230,60, "testInfo",0);
+        tour = new Tour("testName", "testDescription", "Wien", "Linz", "testTransType",230,60,0);
         img = new Image("C:\\Users\\User1\\Documents\\alles_Semester_4\\SWEN2\\TourPlanner\\TourPlannerMap\\testName.jpg");
     }
 

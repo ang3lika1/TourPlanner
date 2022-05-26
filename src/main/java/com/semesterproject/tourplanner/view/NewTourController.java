@@ -19,8 +19,6 @@ public class NewTourController {
     @FXML
     public TextField description;
     @FXML
-    public TextField routeinformation;
-    @FXML
     private TextField tourname;
     @FXML
     private TextField start;
@@ -45,7 +43,7 @@ public class NewTourController {
     }
 
     public void submit(ActionEvent actionEvent) {
-        Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText(), routeinformation.getText());
+        Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText());
 
         NewTour.getInstance().setCreateTour(tour);
         NewTour.getInstance().setCancelled(false);

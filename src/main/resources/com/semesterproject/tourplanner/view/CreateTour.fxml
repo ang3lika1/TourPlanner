@@ -28,8 +28,6 @@
         <Label fx:id="transtypeLabel" layoutX="372.0" layoutY="71.0" prefHeight="17.0" prefWidth="100.0" text="Transport Type:" />
         <TextField fx:id="description" layoutX="364.0" layoutY="169.0" promptText="..." />
         <Label fx:id="descriptionLabel" layoutX="370.0" layoutY="141.0" prefHeight="17.0" prefWidth="78.0" text="Description:" />
-        <TextField fx:id="routeinformation" layoutX="366.0" layoutY="243.0" promptText="..." />
-        <Label fx:id="informationLabel" layoutX="372.0" layoutY="215.0" prefHeight="17.0" prefWidth="110.0" text="Route Information:" />
     </children>
 </AnchorPane>
 </VBox>

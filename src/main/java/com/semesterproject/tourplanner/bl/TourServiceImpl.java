@@ -41,6 +41,14 @@ public class TourServiceImpl implements TourService{
     }
 
     @Override
+    public Tour updateTour(Tour tour){
+        var tourDB = tourDAO.update(tour);
+        //tourDB.setId(tourDAO.getID(tourDB));
+        logger.info("Tour with ID: " + tourDB.getId() + " updated!");
+        return tourDB;
+    }
+
+    @Override
     public void removeTour(Tour tour){
         tourLogServiceImpl.removeAllTourLogs(tour);
         int deletedTour = tour.getId();
