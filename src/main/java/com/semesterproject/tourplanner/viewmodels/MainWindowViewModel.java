@@ -1,8 +1,7 @@
 package com.semesterproject.tourplanner.viewmodels;
 
 import com.semesterproject.tourplanner.models.Tour;
-
-import java.util.List;
+import com.semesterproject.tourplanner.models.TourLog;
 
 public class MainWindowViewModel {
     private SearchBarViewModel searchBarViewModel;
@@ -19,13 +18,14 @@ public class MainWindowViewModel {
         //this.toursOverviewModel.(selectedTour));
 
         this.toursOverviewModel.addSelectionChangedListener(this::selectTour);
-
     }
 
     private void selectTour(Tour selectedTour){
         tourDetailsViewModel.setTourModel(selectedTour);
         tourDetailsViewModel.setTourMap(selectedTour);
+
     }
+
 
     /*private void searchTours(String searchString){
         var tours :List<Tour> = BL.getInstance().findMatchingTours(searchString);

@@ -1,29 +1,15 @@
 package com.semesterproject.tourplanner.view;
 
-import com.semesterproject.tourplanner.DependencyInjection;
-import com.semesterproject.tourplanner.bl.MapException;
-import com.semesterproject.tourplanner.models.Tour;
-import com.semesterproject.tourplanner.models.TourLog;
 import com.semesterproject.tourplanner.viewmodels.TourDetailsViewModel;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Locale;
 
 
 public class TourDetailsController {
@@ -43,7 +29,7 @@ public class TourDetailsController {
     public AnchorPane anchorPaneDetails;
     public Button editButton;
 
-    @FXML
+   /* @FXML
     private TableView<TourLog> tourLogListItems;
     @FXML
     private TableColumn<TourLog, LocalDate> date;
@@ -57,7 +43,7 @@ public class TourDetailsController {
     private TableColumn<TourLog, String> difficulty;
     @FXML
     private TableColumn<TourLog, String> rating;
-    private ObservableList<TourLog> tourlogs  = FXCollections.observableArrayList();
+    private ObservableList<TourLog> tourlogs  = FXCollections.observableArrayList();*/
 
     private Button saveButton;
 
@@ -86,18 +72,18 @@ public class TourDetailsController {
                 tourDetailsViewModel.timeProperty()));
         mapImg.imageProperty().bindBidirectional(tourDetailsViewModel.mapImage());
 
-        Bindings.bindContent(tourlogs, tourDetailsViewModel.ListProperty());
-        date.setCellValueFactory(new PropertyValueFactory<TourLog, LocalDate>("date"));
+        //Bindings.bindContent(tourlogs, tourDetailsViewModel.ListProperty());
+        /*date.setCellValueFactory(new PropertyValueFactory<TourLog, LocalDate>("date"));
         totalTime.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("totalTime"));
         distance.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("distance"));
         comment.setCellValueFactory(new PropertyValueFactory<TourLog, String>("comment"));
         difficulty.setCellValueFactory(new PropertyValueFactory<TourLog, String>("difficulty"));
         rating.setCellValueFactory(new PropertyValueFactory<TourLog, String>("rating"));
         tourLogListItems.setItems(tourlogs);
-        tourLogListItems.getSelectionModel().selectedItemProperty().addListener(tourDetailsViewModel.getChangeListener());
+        tourLogListItems.getSelectionModel().selectedItemProperty().addListener(tourDetailsViewModel.getChangeListener());*/
     }
 
-    @FXML
+   /* @FXML
     public void onButtonAddLog(ActionEvent actionEvent) throws MapException, IOException {
         Parent parent = DependencyInjection.load("CreateLog.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
         Stage stage = new Stage();
@@ -113,9 +99,27 @@ public class TourDetailsController {
         tourLogListItems.getSelectionModel().selectLast();
     }
 
+    @FXML
     public void onButtonRemoveLog(ActionEvent actionEvent) {
         tourDetailsViewModel.deleteTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
     }
+
+    @FXML
+    public void onButtonEditLog(ActionEvent actionEvent) throws IOException {
+        Parent parent = DependencyInjection.load("EditLog.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
+        Stage stage = new Stage();
+        Scene dialogScene = new Scene(parent, 600, 400);
+        stage.setScene(dialogScene);
+        stage.showAndWait();
+
+
+        tourDetailsViewModel.editTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
+        //tourDetailsViewModel.addNewTourLog();
+        Button deleteButton = new Button("delete");
+        deleteButton.setOnAction(this::onButtonRemoveLog);
+
+        tourLogListItems.getSelectionModel().selectLast();
+    }*/
 
     public void editTour(ActionEvent actionEvent) throws IOException {
         nameTextField.setEditable(true);

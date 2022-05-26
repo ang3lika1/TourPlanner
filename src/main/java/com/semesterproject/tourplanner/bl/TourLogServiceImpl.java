@@ -19,9 +19,16 @@ public class TourLogServiceImpl implements TourLogService{
 
     @Override
     public TourLog createTourLog(TourLog tourLog) {
-
         var tourLogDB = tourLogDAO.create(tourLog);
         logger.info("new TourLog with ID: " + tourLogDB.getId() + " created!");
+        return tourLogDB;
+    }
+
+    @Override
+    public TourLog updateTourLog(TourLog tourlog){
+        //editLogViewModel.setTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
+        var tourLogDB = tourLogDAO.update(tourlog);
+        logger.info("TourLog with ID: " + tourLogDB.getId() + " updated!");
         return tourLogDB;
     }
 

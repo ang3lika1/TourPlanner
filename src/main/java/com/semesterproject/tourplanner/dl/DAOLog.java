@@ -13,7 +13,7 @@ public interface DAOLog<T> {
 
     T create(TourLog tourLog);
 
-    void update(T t, List<?> params);
+    T update(TourLog tourLog);
 
     void delete(TourLog tourLog);
 
