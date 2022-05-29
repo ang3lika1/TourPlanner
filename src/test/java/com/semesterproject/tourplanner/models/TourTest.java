@@ -2,19 +2,15 @@ package com.semesterproject.tourplanner.models;
 
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 class TourTest {
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourTest.class);
     private Tour tour;
     private javafx.scene.image.Image img;
-    private JFXPanel panel = new JFXPanel();
 
     @BeforeEach
     void setUp() {

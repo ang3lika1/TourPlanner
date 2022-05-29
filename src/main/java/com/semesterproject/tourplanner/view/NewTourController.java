@@ -8,8 +8,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.controlsfx.validation.Severity;
+import org.controlsfx.validation.ValidationMessage;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
+
+import static org.controlsfx.validation.Validator.*;
 
 public class NewTourController {
     @FXML
@@ -28,6 +35,7 @@ public class NewTourController {
     private Button createButton;
 
     private final NewTourViewModel newTourViewModel;
+    private ValidationSupport support;
 
     public NewTourController(NewTourViewModel newTourViewModel) {
         this.newTourViewModel = newTourViewModel;
@@ -40,6 +48,16 @@ public class NewTourController {
 
     @FXML
     void initialize() {
+        this.support = new ValidationSupport();
+        createButton.disableProperty().bind(support.invalidProperty());
+        support.registerValidator(tourname, Validator.createEmptyValidator("Text is required"));
+        //support.registerValidator(tourname,false, Validator.createEmptyValidator("Text is required", Severity.WARNING));
+        support.registerValidator(start, Validator.createEmptyValidator("Text is required", Severity.WARNING));
+        support.registerValidator(destination, Validator.createEmptyValidator("Text is required", Severity.WARNING));
+
+        ListView<ValidationMessage> listView = new ListView<>();
+        support.validationResultProperty().addListener((o, oldValue, newValue) ->
+                listView.getItems().setAll(newValue.getMessages()));
     }
 
     public void submit(ActionEvent actionEvent) {
