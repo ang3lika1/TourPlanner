@@ -16,6 +16,8 @@
             <items>
             <MenuItem text="create tour report" onAction="#onButtonCreateTourReport"/>
             <MenuItem text="create summary" onAction="#onButtonCreateSummary"/>
+            <MenuItem text="export tour" onAction="#onButtonExport"/>
+            <MenuItem text="import tour" onAction="#onButtonImport"/>
             </items>
         </MenuButton>
     </ToolBar>

@@ -1,14 +1,11 @@
 package com.semesterproject.tourplanner.viewmodels;
 
-import com.semesterproject.tourplanner.bl.MapException;
-import com.semesterproject.tourplanner.bl.TourLogServiceImpl;
-import com.semesterproject.tourplanner.bl.TourServiceImpl;
+import com.semesterproject.tourplanner.bl.*;
 import com.semesterproject.tourplanner.models.Tour;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +34,9 @@ public class ToursOverviewModel {
         return observableTours;
     }
 
+    public void setObservableTour(Tour t) {
+        this.observableTours.add(t);
+    }
 
     public ChangeListener<Tour> getChangeListener() {
         return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
@@ -67,12 +67,11 @@ public class ToursOverviewModel {
 
 
 
-    public void addNewTour() throws MapException, IOException {
+    public void addNewTour() {
         Tour t = NewTour.getInstance().getCreateTour();
 
         if(!NewTour.getInstance().isCancelled()) {
-            Tour tourDB = tourServiceImpl.createTour(t);
-            observableTours.add(tourDB);
+            observableTours.add(t);
         }
     }
 

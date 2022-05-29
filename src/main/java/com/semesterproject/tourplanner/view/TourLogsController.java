@@ -76,6 +76,7 @@ public class TourLogsController {
 
     @FXML
     public void onButtonRemoveLog(ActionEvent actionEvent) {
+        if(tourLogListItems.getSelectionModel().getSelectedItem() != null)
         tourLogViewModel.deleteTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
     }
 

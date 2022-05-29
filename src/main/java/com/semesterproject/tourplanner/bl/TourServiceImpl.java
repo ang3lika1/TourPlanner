@@ -3,41 +3,80 @@ package com.semesterproject.tourplanner.bl;
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.dl.TourDAO;
-import com.semesterproject.tourplanner.dl.TourLogDAO;
 import com.semesterproject.tourplanner.models.Tour;
-import com.semesterproject.tourplanner.models.TourLog;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TourServiceImpl implements TourService{
     private static TourDAO tourDAO;
     private static TourLogServiceImpl tourLogServiceImpl;
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourServiceImpl.class);
+    private ExceptionHelper exceptionHelper;
 
     public TourServiceImpl() {
         tourDAO = TourDAO.getInstance();
         tourLogServiceImpl = new TourLogServiceImpl();
     }
 
-    public static ArrayList<Tour> getAllTours() {
+    @Override
+    public ArrayList<Tour> getAllTours() {
         return tourDAO.getAll();
     }
 
     @Override
-    public Tour createTour(Tour tour) throws MapException {
-        MapQuest mapquest = new MapQuest(tour);
-        tour.setMap(mapquest);
-        tour.setDistance(mapquest.getCalculatedDistance());
-        tour.setTime(mapquest.getCalculatedTime());
+    public Tour createTour(Tour tour) throws Exception {
+        if(tourDAO.checkUnique(tour.getName())) {
+            try {
+                MapQuest mapquest = new MapQuest(tour);
+                tour.setMap(mapquest);
+                tour.setDistance(mapquest.getCalculatedDistance());
+                tour.setTime(mapquest.getCalculatedTime());
+            }catch (MapException e){
+                logger.fatal(e.getMessage());
+                throw e;
+            }
 
-        var tourDB = tourDAO.create(tour);
-        //tourDB.setId(tourDAO.getID(tourDB));
-        logger.info("new Tour with ID: " + tourDB.getId() + " created!");
-        return tourDB;
+            Tour tourDB;
+            tourDB = tourDAO.create(tour);
+
+            logger.info("new Tour with ID: " + tourDB.getId() + " created!");
+            return tourDB;
+        }else{
+            throw new Exception("Tour with this name already exists.");
+        }
+    }
+
+    @Override
+    public Tour createImportedTour(Tour tour) throws Exception {
+        if(tourDAO.checkUnique(tour.getName())) {
+            try {
+                MapQuest mapquest = new MapQuest(tour);
+                tour.setMap(mapquest);
+            }catch (MapException e){
+                logger.fatal(e.getMessage());
+                throw e;
+            }
+
+            Tour tourDB;
+            tourDB = tourDAO.create(tour);
+
+            logger.info("new Tour with ID: " + tourDB.getId() + " created!");
+            return tourDB;
+        }else{
+            throw new Exception("Tour with this name already exists.");
+        }
+    }
+
+    public Boolean isUnique(String tourname){
+        try {
+            return tourDAO.checkUnique(tourname);
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+        }
+        return null;
     }
 
     @Override

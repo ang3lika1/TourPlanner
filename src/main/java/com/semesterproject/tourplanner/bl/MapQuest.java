@@ -79,6 +79,21 @@ public class MapQuest {
     public double getCalculatedDistance() {
         return calculatedDistance;
     }
+
+    public static Boolean testLocation(String start) throws MapException {
+        try {
+            //String json = HTTPHelper.httpGetJsonString("https://www.mapquestapi.com/directions/v2/route?key=" + ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key") + "&from=" + start + "&to=" + destination + "&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false");
+            String json = HTTPHelper.httpGetJsonString("http://www.mapquestapi.com/search/v2/radius?maxMatches=4&key=" + ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key") + "&origin=" + start);
+            System.out.println(json);
+            if(json.contains("hostedData")) {
+                System.out.println("false");
+                return false;
+            }
+        }catch (IOException e){
+            throw new MapException(e.getMessage());
+        }
+        return true;
+    }
 }
 
 

@@ -48,4 +48,7 @@ public class TourLogServiceImpl implements TourLogService{
     }
 
 
+    public ArrayList<TourLog> getAllTourLogs() {
+        return tourLogDAO.getAllLogs();
+    }
 }

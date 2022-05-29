@@ -9,7 +9,6 @@ import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class TourLogDAO implements DAOLog{
@@ -65,6 +64,39 @@ public class TourLogDAO implements DAOLog{
         }
         return null;
     }
+
+    @Override
+    public ArrayList<TourLog> getAllLogs() {
+        ArrayList<TourLog> allTourLogs= new ArrayList<>();
+        try {
+            select = null;
+            select = connection.prepareStatement("SELECT * FROM tourlog");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            ResultSet result = select.executeQuery();
+            while (result.next()) {
+                int id = result.getInt(1);
+                int tour_id = result.getInt(2);
+                LocalDate date = result.getDate(3).toLocalDate();
+                String comment = result.getString(4);
+                String difficulty = result.getString(5);
+                int total_time = result.getInt(6);
+                int rating = result.getInt(7);
+                int distance = result.getInt(8);
+
+                TourLog tourLog  = new TourLog(id, tour_id, date, comment, difficulty, total_time, rating, distance);
+                allTourLogs.add(tourLog);
+            }
+            select.close();
+            return allTourLogs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     @Override
     public TourLog create(TourLog tourLog) {
