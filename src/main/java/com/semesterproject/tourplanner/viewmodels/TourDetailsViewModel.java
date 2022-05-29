@@ -20,6 +20,10 @@ public class TourDetailsViewModel {
     private Tour tour;
     private volatile boolean isInitValue = false;
 
+    public Tour getTour() {
+        return tour;
+    }
+
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final ObjectProperty<javafx.scene.image.Image> mapImg = new SimpleObjectProperty<>();
@@ -28,38 +32,43 @@ public class TourDetailsViewModel {
     private final StringProperty start = new SimpleStringProperty();
     private final StringProperty destination = new SimpleStringProperty();
     private final StringProperty transtype = new SimpleStringProperty();
-    final ListProperty<TourLog> tourlogs = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private TourLogViewModel tourLogViewModel;
+   // final ListProperty<TourLog> tourlogs = new SimpleListProperty<>(FXCollections.observableArrayList());
 
-    private List<TourDetailsViewModel.SelectionChangedListener> listeners = new ArrayList<>();
-    private ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
+   // private List<TourDetailsViewModel.SelectionChangedListener> listeners = new ArrayList<>();
+    //private ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
 
     public TourDetailsViewModel() {
         tourLogServiceImpl = new TourLogServiceImpl();
         tourServiceImpl = new TourServiceImpl();
         name.addListener( (arg, oldVal, newVal)->updateTourModel());
     }
-    public interface SelectionChangedListener {
+
+    private void selectTourLog(TourLog selectedTourLog) {
+        tourLogViewModel.setTourLogToEdit(selectedTourLog);
+    }
+    /*public interface SelectionChangedListener {
         void changeLogSelection(TourLog tourlog);
     }
 
     public ObservableList<TourLog> getObservableTourLogs() {
         return observableTourLogs;
     }
-    public ChangeListener<TourLog> getChangeListener() {
+    /*public ChangeListener<TourLog> getChangeListener() {
         return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
     }
     private void notifyListeners(TourLog newValue) {
         for ( var listener : listeners ) {
             listener.changeLogSelection(newValue);
         }
-    }
+    }*/
 
-    public List<TourDetailsViewModel.SelectionChangedListener> getListeners() {
+    /*public List<TourDetailsViewModel.SelectionChangedListener> getListeners() {
         return listeners;
     }
     public void addSelectionChangedListener(TourDetailsViewModel.SelectionChangedListener listener) {
         listeners.add(listener);
-    }
+    }*/
 
     public String getName() {
         return name.get();
@@ -89,8 +98,14 @@ public class TourDetailsViewModel {
     public IntegerProperty timeProperty() {
         return time;
     }
-    public ObservableList<TourLog> ListProperty(){
+    /*public ObservableList<TourLog> ListProperty(){
         return tourlogs;
+    }*/
+
+    public void setTourLogViewModel(TourLogViewModel tourLogViewModel) {
+        this.tourLogViewModel = tourLogViewModel;
+        if(isInitValue=false)
+            this.tourLogViewModel.addSelectionChangedListener(this::selectTourLog);
     }
 
     public void setTourModel(Tour tourModel) {
@@ -108,11 +123,13 @@ public class TourDetailsViewModel {
         transtype.setValue( tourModel.getTransport_type() );
         distance.setValue(tourModel.getDistance());
         time.setValue(tourModel.getTime());
-        isInitValue = false;
         //set observableTourLogs with data from database
-        setTourLogs(tourLogServiceImpl.getAll(tour));
+        tourLogViewModel.setParentViewModel(this);
+        tourLogViewModel.setTourModel(tour);
+        tourLogViewModel.setTourLogs(tourLogServiceImpl.getAll(tour));
         //tourlogs is returned as Listproperty
-        tourlogs.setValue(observableTourLogs);
+        //tourlogs.setValue(observableTourLogs);
+        isInitValue = false;
     }
 
     public void setTourMap(Tour tourModel) {
@@ -140,7 +157,7 @@ public class TourDetailsViewModel {
         }
     }
 
-    public void setTourLogs(ArrayList<TourLog> logItems) {
+    /*public void setTourLogs(ArrayList<TourLog> logItems) {
         observableTourLogs.clear();
         observableTourLogs.addAll(logItems);
         tour.setLog(logItems);
@@ -156,9 +173,20 @@ public class TourDetailsViewModel {
         }
     }
 
+    public void editTourLog(TourLog tourLog) throws IOException {
+        //TourLog tourLog = NewTourLog.getInstance().getCreateTourLog();
+
+        if(!NewTourLog.getInstance().isCancelled()) {
+            //tourLog.setTourId(tour.getId());
+            observableTourLogs.remove(tourLog);
+            TourLog tourLogDB = tourLogServiceImpl.updateTourLog(tourLog);
+            observableTourLogs.add(tourLogDB);
+        }
+    }
+
     public void deleteTourLog(TourLog tourLog) {
         tourLogServiceImpl.removeTourLog(tourLog);
         observableTourLogs.remove(tourLog);
-    }
+    }*/
 
 }

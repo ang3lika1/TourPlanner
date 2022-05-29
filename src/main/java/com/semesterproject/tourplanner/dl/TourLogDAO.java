@@ -17,6 +17,7 @@ public class TourLogDAO implements DAOLog{
     static PreparedStatement insert = null;
     static PreparedStatement select = null;
     static PreparedStatement delete = null;
+    static PreparedStatement update = null;
     private static TourLogDAO instance = null;
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourLogDAO.class);
 
@@ -57,6 +58,7 @@ public class TourLogDAO implements DAOLog{
                 TourLog tourLog  = new TourLog(id, tour_id, date, comment, difficulty, total_time, rating, distance);
                 allTourLogs.add(tourLog);
             }
+            select.close();
             return allTourLogs;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,6 +87,7 @@ public class TourLogDAO implements DAOLog{
                 tourLog.setId(id);
                 logger.info("id returned: "+id);
             }
+            insert.close();
             return tourLog;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,6 +104,7 @@ public class TourLogDAO implements DAOLog{
                 """);
             delete.setInt(1, tourLog.getId());
             delete.execute();
+            delete.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -115,6 +119,7 @@ public class TourLogDAO implements DAOLog{
                 """);
             delete.setInt(1, tour.getId());
             delete.execute();
+            delete.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -122,7 +127,27 @@ public class TourLogDAO implements DAOLog{
 
 
     @Override
-    public void update(Object o, List params) {
+    public TourLog update(TourLog tourLog) {
+        try{
+            update = connection.prepareStatement("""
+                UPDATE tourlog
+                SET date=?, comment=?, difficulty=?, total_time=?, rating=?, distance=?
+                WHERE id=?
+                """);
+            update.setDate(1,Date.valueOf(tourLog.getDate()));
+            update.setString(2,tourLog.getComment());
+            update.setString(3,tourLog.getDifficulty());
+            update.setInt(4,tourLog.getTotalTime());
+            update.setInt(5,tourLog.getRating());
+            update.setInt(6,tourLog.getDistance());
+            update.setInt(7,tourLog.getId());
+            update.execute();
+            update.close();
+            return tourLog;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
 
     }
 }
