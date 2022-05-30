@@ -44,6 +44,7 @@ public class TourDAO implements DAO<Tour>{
         }
         try {
             ResultSet result =  select.executeQuery();
+            select.close();
             if (result.next()) {
                 int id = result.getInt(1);
                 return id;
@@ -86,8 +87,24 @@ public class TourDAO implements DAO<Tour>{
         return null;
     }
 
+    public Boolean checkUnique(String tourname) throws SQLException {
+        try {
+            select = null;
+            select = connection.prepareStatement("SELECT * FROM tour WHERE name=?");
+            select.setString(1, tourname);
+                ResultSet result = select.executeQuery();
+                if (result.next()) {
+                    return false;
+                }else{
+                    return true;
+                }
+            } catch (SQLException e) {
+               logger.warn(e.getMessage());
+               throw e;
+            }
+    }
     @Override
-    public Tour create(Tour tour) {
+    public Tour create(Tour tour) throws SQLException {
         try{
             insert = connection.prepareStatement("""
                 INSERT INTO tour(name, description, start, destination, transport_type, distance, time)
@@ -111,8 +128,10 @@ public class TourDAO implements DAO<Tour>{
             return tour;
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.warn(e.getMessage());
+            throw e;
         }
-        return null;
+        //return null;
     }
 
     @Override

@@ -1,5 +1,10 @@
 package com.semesterproject.tourplanner.view;
 
+import com.semesterproject.tourplanner.bl.ExceptionHelper;
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
+import com.semesterproject.tourplanner.bl.MapException;
+import com.semesterproject.tourplanner.bl.TourServiceImpl;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.viewmodels.NewTour;
 import com.semesterproject.tourplanner.viewmodels.NewTourViewModel;
@@ -8,8 +13,17 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.controlsfx.validation.*;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
+import static org.controlsfx.validation.Validator.*;
 
 public class NewTourController {
     @FXML
@@ -18,6 +32,7 @@ public class NewTourController {
     public TextField transtype;
     @FXML
     public TextField description;
+    public AnchorPane createAnchorPane;
     @FXML
     private TextField tourname;
     @FXML
@@ -28,25 +43,42 @@ public class NewTourController {
     private Button createButton;
 
     private final NewTourViewModel newTourViewModel;
+    private ExceptionHelper exceptionHelper;
+    private ValidationSupport support, support1, support2;
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(NewTourController.class);
 
     public NewTourController(NewTourViewModel newTourViewModel) {
         this.newTourViewModel = newTourViewModel;
+        TourServiceImpl tourServiceImpl = new TourServiceImpl();
     }
 
-
-    public NewTourViewModel getNewTourViewModel() {
-        return newTourViewModel;
-    }
 
     @FXML
     void initialize() {
+        this.support = new ValidationSupport();
+        createButton.disableProperty().bind(support.invalidProperty());
+        Validator<String> emptyField = Validator.createEmptyValidator("Text required");
+        Validator<String> uniqueName = Validator.createPredicateValidator(
+                newTourViewModel::isUnique
+                ,"Tour with this name already exists");
+        Validator<String> validLocation = Validator.createPredicateValidator(
+                newTourViewModel::validMap
+                ,"invalid location");
+        support.registerValidator(tourname, Validator.combine(emptyField, uniqueName));
+        support.registerValidator(start, Validator.combine(emptyField, validLocation));
+        support.registerValidator(destination, Validator.combine(emptyField, validLocation));
     }
 
-    public void submit(ActionEvent actionEvent) {
+    public void submit(ActionEvent actionEvent){
         Tour tour = new Tour(tourname.getText(),description.getText(), start.getText(), destination.getText(), transtype.getText());
 
-        NewTour.getInstance().setCreateTour(tour);
+        //NewTour.getInstance().setCreateTour(tour);
         NewTour.getInstance().setCancelled(false);
+        try {
+            newTourViewModel.addTour(tour);
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+        }
 
         Node source = (Node)  actionEvent.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
@@ -60,4 +92,5 @@ public class NewTourController {
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
 }

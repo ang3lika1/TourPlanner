@@ -1,6 +1,7 @@
 package com.semesterproject.tourplanner.view;
 
 import com.semesterproject.tourplanner.DependencyInjection;
+import com.semesterproject.tourplanner.bl.ExportHelper;
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.bl.MapException;
@@ -16,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -83,6 +85,22 @@ public class ToursOverviewController {
 
             logger.info("summary created");
         } catch (IOException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+    }
+    public void onButtonExport(ActionEvent actionEvent){
+        try {
+            ExportHelper.exportTour(tourListItem.getSelectionModel().getSelectedItem());
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    public void onButtonImport(ActionEvent actionEvent){
+        try {
+            toursOverviewModel.setObservableTour(ExportHelper.importTour());
+        } catch (Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
         }

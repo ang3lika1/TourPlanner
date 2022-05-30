@@ -135,10 +135,7 @@ public class Tour {
     }
 
     public void setDistance(double distance) {
-        if(distance >= 0)
             this.distance = distance;
-        else
-            throw new IllegalArgumentException("distance must be greater than or equal to 0");
     }
 
     public int getTime() {
