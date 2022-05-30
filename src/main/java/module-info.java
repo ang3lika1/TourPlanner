@@ -4,7 +4,6 @@ module com.semesterproject.tourplanner {
     requires java.sql;
     requires com.google.gson;
     requires java.desktop;
-    requires ini4j;
     requires org.apache.logging.log4j;
     requires layout;
     requires kernel;

@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="google.code.gson" level="project" />
+    <orderEntry type="library" name="eurekaclinical.protempa.bconfigs.ini4j.ini" level="project" />
     <orderEntry type="library" name="controlsfx" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:18.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:18.0.1" level="project" />
