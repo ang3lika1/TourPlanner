@@ -2,7 +2,8 @@
 https://github.com/ang3lika1/TourPlanner.git
 
 ## About the Project: 
-Application based on JavaFX GUI framework.
+Picked up JAVA_TOOL_OPTIONS:  -Dfile.encoding=UTF8 <br/>
+Maven Application based on JavaFX GUI framework. <br/>
 The user can create/manage tours, associated logs and statistical data of tours. 
 
 All data is persisted in a database.
@@ -54,8 +55,8 @@ Database runs in Docker Container
 <br/>
 
  ## Design Pattern
- <br/>
- #### Singleton
+ Singleton pattern and DAO pattern are used.
+ ### Singleton
  Singleton is a creational design pattern which ensures that a class has only one instance, while providing a global access point to this instance.
  In this application the class "Database.java", responsible for the connection with the postgres database, is designed as Singleton. Since the database is a shared resource, the access should be controlled and therefore the number of instances is restricted.
  
@@ -87,5 +88,31 @@ Database runs in Docker Container
         return connection;
     }
 ```
+  ### DAO
+  ![grafik](https://user-images.githubusercontent.com/74720686/171052490-afd08a53-f3f8-4c4c-8e79-6b8827ebea10.png)
+
+  The DAO pattern is used to isolate the business layer from the persistence layer(database). <br/>
+  "TourDAO" and "TourLogDAO" both implement the interface "DAO"
+  
+## Unit Tests: 
+  * Unit Tests for testing usage of MapQuest API: <br/>
+   directions, calculated time, calculated distance.
+  * Unit Tests for database/DAO testing: <br/>
+   Test Classes for Services (Tour/ TourLog) with mocks for DAO to avoid writing actual data to the real database.
+   MockitoExtension used.
  
  
+ ## Tracked Time
+| subject | time in hours | 
+|:--------------:|:-------------:|
+| MVVM structure | 6 | 
+| Database with Docker | 2 | 
+| DB connection and DAO | 3 | 
+| CRUD tour | 5 | 
+| CRUD tourlog | 5 |
+| data binding, properties | 10 | 
+| unique feature | 2 |
+| mapQuest API, json | 12 | 
+| Unit Tests | 5 | 
+| Debugging and creating hand over | 4 | 
+
