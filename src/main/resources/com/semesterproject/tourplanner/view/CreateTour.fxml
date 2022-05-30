@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.semesterproject.tourplanner.view.NewTourController">
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0">
+<AnchorPane fx:id="createAnchorPane" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0">
     <children>
         <Label fx:id="createLabel" contentDisplay="CENTER" layoutX="224.0" layoutY="21.0" prefHeight="33.0" prefWidth="153.0" text="Create Tour" textFill="#797cd9">
             <font>

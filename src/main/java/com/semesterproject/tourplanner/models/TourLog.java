@@ -23,6 +23,16 @@ public class TourLog {
         this.distance = distance;
     }
 
+    public TourLog( int tourId, LocalDate date, String comment, String difficulty, int totalTime, int rating, int distance) {
+        this.tourId = tourId;
+        this.date = date;
+        this.comment = comment;
+        this.difficulty = difficulty;
+        this.totalTime = totalTime;
+        this.rating = rating;
+        this.distance = distance;
+    }
+
     public TourLog(LocalDate date, String comment, String difficulty, int totalTime, int rating, int distance) {
         this.date = date;
         this.comment = comment;

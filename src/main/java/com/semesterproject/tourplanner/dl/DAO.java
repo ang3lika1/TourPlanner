@@ -3,6 +3,7 @@ package com.semesterproject.tourplanner.dl;
 
 import com.semesterproject.tourplanner.models.Tour;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ public interface DAO<T> {
 
     List<T> getAll();
 
-    T create(Tour tour);
+    T create(Tour tour) throws SQLException;
 
     T update(T t);
 
