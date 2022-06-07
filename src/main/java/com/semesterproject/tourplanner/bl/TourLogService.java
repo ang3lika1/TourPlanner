@@ -3,6 +3,7 @@ package com.semesterproject.tourplanner.bl;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface TourLogService {
@@ -11,4 +12,6 @@ public interface TourLogService {
     void removeTourLog(TourLog tourLog);
     void removeAllTourLogs(Tour tour);
     List<TourLog> getAll(Tour tour);
+
+    ArrayList<TourLog> getAllTourLogs();
 }

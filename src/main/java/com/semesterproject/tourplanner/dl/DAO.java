@@ -1,7 +1,7 @@
 package com.semesterproject.tourplanner.dl;
 
 
-import com.semesterproject.tourplanner.models.Tour;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,9 +11,10 @@ public interface DAO<T> {
 
     Optional<T> get(int id);
 
-    List<T> getAll();
+    List<T> getAll(@Nullable Integer id);
 
-    T create(Tour tour) throws SQLException;
+
+    T create(T t) throws SQLException;
 
     T update(T t);
 

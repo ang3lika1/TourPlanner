@@ -9,24 +9,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class TourDAO implements DAO<Tour>{
-    static Connection connection = Database.getInstance().getConnection();
-    static PreparedStatement insert = null;
-    static PreparedStatement select = null;
-    static PreparedStatement delete = null;
-    static PreparedStatement update = null;
-    private static TourDAO instance = null;
+    static Connection connection;
+    PreparedStatement insert, select, delete, update;
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourDAO.class);
 
-    static{
-        TourDAO.instance = new TourDAO();
-    }
-
-    public static TourDAO getInstance() {
-        return instance;
+    public TourDAO() {
+        connection = Database.getInstance().getConnection();
+        insert = null;
+        select = null;
+        delete = null;
+        update = null;
     }
 
     @Override
@@ -34,35 +29,15 @@ public class TourDAO implements DAO<Tour>{
         return Optional.empty();
     }
 
-    public static Integer getID(Tour tour) {
-        try {
-            select = null;
-            select = connection.prepareStatement("SELECT * FROM tour WHERE name = ?");
-            select.setString(1, tour.getName());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            ResultSet result =  select.executeQuery();
-            select.close();
-            if (result.next()) {
-                int id = result.getInt(1);
-                return id;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     @Override
-    public ArrayList<Tour> getAll() {
+    public ArrayList<Tour> getAll(Integer optional) {
         ArrayList<Tour> allTours= new ArrayList<>();
         try {
             select = null;
             select = connection.prepareStatement("SELECT * FROM tour");
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         try {
             ResultSet result = select.executeQuery();
@@ -82,10 +57,11 @@ public class TourDAO implements DAO<Tour>{
             select.close();
             return allTours;
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e.getMessage());
         }
         return null;
     }
+
 
     public Boolean checkUnique(String tourname) throws SQLException {
         try {
@@ -93,11 +69,7 @@ public class TourDAO implements DAO<Tour>{
             select = connection.prepareStatement("SELECT * FROM tour WHERE name=?");
             select.setString(1, tourname);
                 ResultSet result = select.executeQuery();
-                if (result.next()) {
-                    return false;
-                }else{
-                    return true;
-                }
+            return !result.next();
             } catch (SQLException e) {
                logger.warn(e.getMessage());
                throw e;
@@ -122,7 +94,6 @@ public class TourDAO implements DAO<Tour>{
             if (result.next()) {
                 int id = result.getInt(1);
                 tour.setId(id);
-                logger.info("id returned: "+id);
             }
             insert.close();
             return tour;
@@ -131,7 +102,6 @@ public class TourDAO implements DAO<Tour>{
             logger.warn(e.getMessage());
             throw e;
         }
-        //return null;
     }
 
     @Override
@@ -153,7 +123,7 @@ public class TourDAO implements DAO<Tour>{
             update.close();
             return tour;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }
@@ -168,7 +138,7 @@ public class TourDAO implements DAO<Tour>{
             delete.execute();
             delete.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 }

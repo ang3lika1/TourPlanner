@@ -1,16 +1,14 @@
 package com.semesterproject.tourplanner.view;
 
 import com.semesterproject.tourplanner.viewmodels.TourDetailsViewModel;
-import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.converter.NumberStringConverter;
-
-import java.io.IOException;
 
 
 public class TourDetailsController {
@@ -29,22 +27,10 @@ public class TourDetailsController {
     public TextField transptypeTextField;
     public AnchorPane anchorPaneDetails;
     public Button editButton;
+    public TextArea maneuvers;
+    public TextField popularityField;
+    public TextField childFriendlinessField;
 
-   /* @FXML
-    private TableView<TourLog> tourLogListItems;
-    @FXML
-    private TableColumn<TourLog, LocalDate> date;
-    @FXML
-    private TableColumn<TourLog, Integer> totalTime;
-    @FXML
-    private TableColumn<TourLog, Integer> distance;
-    @FXML
-    private TableColumn<TourLog, String> comment;
-    @FXML
-    private TableColumn<TourLog, String> difficulty;
-    @FXML
-    private TableColumn<TourLog, String> rating;
-    private ObservableList<TourLog> tourlogs  = FXCollections.observableArrayList();*/
 
     private Button saveButton;
 
@@ -61,7 +47,6 @@ public class TourDetailsController {
     @FXML
     void initialize() {
         nameTextField.textProperty().bindBidirectional(tourDetailsViewModel.nameProperty());
-        //nameTextField.setEditable(false);
         descriptionTextField.textProperty().bindBidirectional(tourDetailsViewModel.descriptionProperty());
         startTextField.textProperty().bindBidirectional(tourDetailsViewModel.startProperty());
         destinationTextField.textProperty().bindBidirectional(tourDetailsViewModel.destinationProperty());
@@ -70,68 +55,26 @@ public class TourDetailsController {
         distanceField.textProperty().bindBidirectional(tourDetailsViewModel.distanceProperty(), converter);
         timeField.textProperty().bindBidirectional(tourDetailsViewModel.timeProperty(), converter);
         mapImg.imageProperty().bindBidirectional(tourDetailsViewModel.mapImage());
-
-        //Bindings.bindContent(tourlogs, tourDetailsViewModel.ListProperty());
-        /*date.setCellValueFactory(new PropertyValueFactory<TourLog, LocalDate>("date"));
-        totalTime.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("totalTime"));
-        distance.setCellValueFactory(new PropertyValueFactory<TourLog, Integer>("distance"));
-        comment.setCellValueFactory(new PropertyValueFactory<TourLog, String>("comment"));
-        difficulty.setCellValueFactory(new PropertyValueFactory<TourLog, String>("difficulty"));
-        rating.setCellValueFactory(new PropertyValueFactory<TourLog, String>("rating"));
-        tourLogListItems.setItems(tourlogs);
-        tourLogListItems.getSelectionModel().selectedItemProperty().addListener(tourDetailsViewModel.getChangeListener());*/
+        maneuvers.textProperty().bindBidirectional(tourDetailsViewModel.maneuverProperty());
+        popularityField.textProperty().bindBidirectional(tourDetailsViewModel.popularityProperty());
+        childFriendlinessField.textProperty().bindBidirectional(tourDetailsViewModel.childFriendlinessProperty());
     }
 
-   /* @FXML
-    public void onButtonAddLog(ActionEvent actionEvent) throws MapException, IOException {
-        Parent parent = DependencyInjection.load("CreateLog.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
-        Stage stage = new Stage();
-        Scene dialogScene = new Scene(parent, 600, 400);
-        stage.setScene(dialogScene);
-        stage.showAndWait();
 
-
-        tourDetailsViewModel.addNewTourLog();
-        Button deleteButton = new Button("delete");
-        deleteButton.setOnAction(this::onButtonRemoveLog);
-
-        tourLogListItems.getSelectionModel().selectLast();
-    }
-
-    @FXML
-    public void onButtonRemoveLog(ActionEvent actionEvent) {
-        tourDetailsViewModel.deleteTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
-    }
-
-    @FXML
-    public void onButtonEditLog(ActionEvent actionEvent) throws IOException {
-        Parent parent = DependencyInjection.load("EditLog.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
-        Stage stage = new Stage();
-        Scene dialogScene = new Scene(parent, 600, 400);
-        stage.setScene(dialogScene);
-        stage.showAndWait();
-
-
-        tourDetailsViewModel.editTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
-        //tourDetailsViewModel.addNewTourLog();
-        Button deleteButton = new Button("delete");
-        deleteButton.setOnAction(this::onButtonRemoveLog);
-
-        tourLogListItems.getSelectionModel().selectLast();
-    }*/
-
-    public void editTour(ActionEvent actionEvent) throws IOException {
+    public void editTour() {
         nameTextField.setEditable(true);
         transptypeTextField.setEditable(true);
         descriptionTextField.setEditable(true);
         distanceField.setEditable(true);
         timeField.setEditable(true);
 
-        saveButton = new Button("save");
+        /*saveButton = new Button("save");
         saveButton.setLayoutX(500);
         saveButton.setLayoutY(400);
         saveButton.setOnAction(e->updateTour());
-        anchorPaneDetails.getChildren().add(saveButton);
+        anchorPaneDetails.getChildren().add(saveButton);*/
+        editButton.setText("save");
+        editButton.setOnAction(e->updateTour());
     }
 
     private void updateTour() {
@@ -142,6 +85,8 @@ public class TourDetailsController {
         descriptionTextField.setEditable(false);
         distanceField.setEditable(false);
         timeField.setEditable(false);
-        anchorPaneDetails.getChildren().remove(saveButton);
+        //anchorPaneDetails.getChildren().remove(saveButton);
+        editButton.setText("edit");
+        editButton.setOnAction(e->editTour());
     }
 }

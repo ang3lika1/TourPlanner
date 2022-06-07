@@ -1,5 +1,8 @@
 package com.semesterproject.tourplanner.bl;
 
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -8,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileHelper {
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(FileHelper.class);
     public static void openDefault(String f){
         //reference to a file
         File file = new File(f);
@@ -17,7 +21,7 @@ public class FileHelper {
             //launches a default program to open the file
             desktop.open(file);
         } catch (IOException e) {
-            LogHelper.error(e);
+            logger.error(e.getMessage());
         }
     }
 
@@ -29,8 +33,7 @@ public class FileHelper {
         try {
             Files.delete(pathToBeDeleted);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        //file.delete();
     }
 }

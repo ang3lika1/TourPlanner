@@ -1,20 +1,22 @@
 package com.semesterproject.tourplanner.viewmodels;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
+import com.semesterproject.tourplanner.bl.MapQuest;
 import com.semesterproject.tourplanner.bl.TourLogServiceImpl;
 import com.semesterproject.tourplanner.bl.TourServiceImpl;
+import com.semesterproject.tourplanner.enums.Difficulty;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class TourDetailsViewModel {
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(TourDetailsViewModel.class);
     private static TourLogServiceImpl tourLogServiceImpl;
     private static TourServiceImpl tourServiceImpl;
     private Tour tour;
@@ -33,10 +35,9 @@ public class TourDetailsViewModel {
     private final StringProperty destination = new SimpleStringProperty();
     private final StringProperty transtype = new SimpleStringProperty();
     private TourLogViewModel tourLogViewModel;
-   // final ListProperty<TourLog> tourlogs = new SimpleListProperty<>(FXCollections.observableArrayList());
-
-   // private List<TourDetailsViewModel.SelectionChangedListener> listeners = new ArrayList<>();
-    //private ObservableList<TourLog> observableTourLogs = FXCollections.observableArrayList();
+    private final StringProperty maneuvers = new SimpleStringProperty();
+    private final StringProperty popularity = new SimpleStringProperty();
+    private final StringProperty childFriendliness = new SimpleStringProperty();
 
     public TourDetailsViewModel() {
         tourLogServiceImpl = new TourLogServiceImpl();
@@ -47,28 +48,6 @@ public class TourDetailsViewModel {
     private void selectTourLog(TourLog selectedTourLog) {
         tourLogViewModel.setTourLogToEdit(selectedTourLog);
     }
-    /*public interface SelectionChangedListener {
-        void changeLogSelection(TourLog tourlog);
-    }
-
-    public ObservableList<TourLog> getObservableTourLogs() {
-        return observableTourLogs;
-    }
-    /*public ChangeListener<TourLog> getChangeListener() {
-        return (observableValue, oldValue, newValue) -> notifyListeners(newValue);
-    }
-    private void notifyListeners(TourLog newValue) {
-        for ( var listener : listeners ) {
-            listener.changeLogSelection(newValue);
-        }
-    }*/
-
-    /*public List<TourDetailsViewModel.SelectionChangedListener> getListeners() {
-        return listeners;
-    }
-    public void addSelectionChangedListener(TourDetailsViewModel.SelectionChangedListener listener) {
-        listeners.add(listener);
-    }*/
 
     public String getName() {
         return name.get();
@@ -98,9 +77,10 @@ public class TourDetailsViewModel {
     public IntegerProperty timeProperty() {
         return time;
     }
-    /*public ObservableList<TourLog> ListProperty(){
-        return tourlogs;
-    }*/
+    public StringProperty maneuverProperty(){return maneuvers;}
+    public StringProperty popularityProperty(){return popularity;}
+    public StringProperty childFriendlinessProperty(){return childFriendliness;}
+
 
     public void setTourLogViewModel(TourLogViewModel tourLogViewModel) {
         this.tourLogViewModel = tourLogViewModel;
@@ -115,6 +95,7 @@ public class TourDetailsViewModel {
             name.set("");
             return;
         }
+
         this.tour = tourModel;
         name.setValue( tourModel.getName() );
         description.setValue( tourModel.getDescription() );
@@ -127,9 +108,30 @@ public class TourDetailsViewModel {
         tourLogViewModel.setParentViewModel(this);
         tourLogViewModel.setTourModel(tour);
         tourLogViewModel.setTourLogs(tourLogServiceImpl.getAll(tour));
-        //tourlogs is returned as Listproperty
-        //tourlogs.setValue(observableTourLogs);
+        popularity.setValue(String.valueOf(tourLogServiceImpl.getAll(tour).stream().count()));
+        childFriendliness.setValue(getDifficulty());
+
         isInitValue = false;
+    }
+
+    private String getDifficulty(){
+        if(!tour.getLog().isEmpty()) {
+            double avgDifficulty = 0;
+            int i = 0;
+            for (TourLog tourLog : tour.getLog()) {
+                avgDifficulty += Difficulty.valueOf(tourLog.getDifficulty().toUpperCase()).getCode();
+                i++;
+            }
+            avgDifficulty = avgDifficulty / i;
+            if(avgDifficulty < 1.5){
+                return "easy";
+            }else if(avgDifficulty < 2.5){
+                return "medium";
+            }else{
+                return "hard";
+            }
+        }
+        return null;
     }
 
     public void setTourMap(Tour tourModel) {
@@ -143,9 +145,24 @@ public class TourDetailsViewModel {
         isInitValue = false;
     }
 
+    public void setTourManeuvers(Tour tourModel) {
+        try {
+            maneuvers.set(listToString(MapQuest.getNarratives(tourModel.getStart(), tourModel.getDestination())));
+        } catch (JsonProcessingException e) {
+           logger.error(e.getMessage());
+        }
+    }
+    public static String listToString(List<?> list) {
+        String result = "";
+        for (Object o : list) {
+            result += o + "\n";
+        }
+        byte[] bytes = result.getBytes(StandardCharsets.UTF_8);
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
     public void updateTourModel() {
         if( !isInitValue ) {
-            //SET name=?, description=?, transport_type=?, distance=?, time=?
             tour.setName(name.get());
             tour.setDescription(description.get());
             tour.setTransport_type(transtype.get());
@@ -153,40 +170,6 @@ public class TourDetailsViewModel {
             tour.setTime(time.get());
 
             tourServiceImpl.updateTour(tour);
-            //DAL.getInstance().tourDao().update(mediaItemModel, Arrays.asList(mediaItemModel.getId(), name.get(), distance.get(), plannedTime.get()));
         }
     }
-
-    /*public void setTourLogs(ArrayList<TourLog> logItems) {
-        observableTourLogs.clear();
-        observableTourLogs.addAll(logItems);
-        tour.setLog(logItems);
-    }
-
-    public void addNewTourLog() throws IOException {
-        TourLog tourLog = NewTourLog.getInstance().getCreateTourLog();
-
-        if(!NewTourLog.getInstance().isCancelled()) {
-            tourLog.setTourId(tour.getId());
-            TourLog tourLogDB = tourLogServiceImpl.createTourLog(tourLog);
-            observableTourLogs.add(tourLogDB);
-        }
-    }
-
-    public void editTourLog(TourLog tourLog) throws IOException {
-        //TourLog tourLog = NewTourLog.getInstance().getCreateTourLog();
-
-        if(!NewTourLog.getInstance().isCancelled()) {
-            //tourLog.setTourId(tour.getId());
-            observableTourLogs.remove(tourLog);
-            TourLog tourLogDB = tourLogServiceImpl.updateTourLog(tourLog);
-            observableTourLogs.add(tourLogDB);
-        }
-    }
-
-    public void deleteTourLog(TourLog tourLog) {
-        tourLogServiceImpl.removeTourLog(tourLog);
-        observableTourLogs.remove(tourLog);
-    }*/
-
 }

@@ -1,5 +1,6 @@
 package com.semesterproject.tourplanner.view;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.semesterproject.tourplanner.DependencyInjection;
 import com.semesterproject.tourplanner.bl.ExportHelper;
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
@@ -106,5 +107,12 @@ public class ToursOverviewController {
         }
     }
 
+    public void onButtonDownloadManeuvers(ActionEvent actionEvent) {
+        try {
+            ExportHelper.downloadManeuver(tourListItem.getSelectionModel().getSelectedItem());
+        } catch (FileNotFoundException | JsonProcessingException e) {
+            logger.error(e.getMessage());
+        }
     }
+}
 

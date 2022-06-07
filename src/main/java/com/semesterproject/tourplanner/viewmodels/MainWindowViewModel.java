@@ -20,25 +20,20 @@ public class MainWindowViewModel {
         this.searchBarViewModel.addSearchListener(this::searchTours);
         this.searchBarViewModel.addSearchListener(this::searchTourLogs);
 
-        //this.toursOverviewModel.(selectedTour));
-
         this.toursOverviewModel.addSelectionChangedListener(this::selectTour);
     }
 
     private void selectTour(Tour selectedTour){
         tourDetailsViewModel.setTourModel(selectedTour);
         tourDetailsViewModel.setTourMap(selectedTour);
+        tourDetailsViewModel.setTourManeuvers(selectedTour);
     }
 
 
     private void searchTours(String searchString){
         List<Tour> tours = SearchHelper.getInstance().findMatchingTours(searchString);
         ArrayList<Tour> setList = new ArrayList<>(tours);
-       /* for (Tour tour : setList) {
-            for (TourLog tourLog : tour.getLog()) {
-                tourLog.getComment().contains(searchString);
-            }
-        }*/
+
         toursOverviewModel.setTours(setList);
     }
     private void searchTourLogs(String searchString){

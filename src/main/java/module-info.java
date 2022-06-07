@@ -9,6 +9,8 @@ module com.semesterproject.tourplanner {
     requires kernel;
     requires io;
     requires org.controlsfx.controls;
+    requires com.fasterxml.jackson.databind;
+    requires org.jetbrains.annotations;
 
     opens com.semesterproject.tourplanner;
     exports com.semesterproject.tourplanner;

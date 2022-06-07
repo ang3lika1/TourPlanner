@@ -7,20 +7,20 @@ import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TourLogServiceImpl implements TourLogService{
-    private static TourLogDAO tourLogDAO;
-    private static final LoggerWrapper logger = LoggerFactory.getLogger(TourServiceImpl.class);
+    private TourLogDAO tourLogDAO;
 
+    public TourLogServiceImpl(TourLogDAO tourLogDAO) {
+        this.tourLogDAO = tourLogDAO;
+    }
     public TourLogServiceImpl() {
-        tourLogDAO = TourLogDAO.getInstance();
+        this.tourLogDAO = new TourLogDAO();
     }
 
     @Override
     public TourLog createTourLog(TourLog tourLog) {
         var tourLogDB = tourLogDAO.create(tourLog);
-        logger.info("new TourLog with ID: " + tourLogDB.getId() + " created!");
         return tourLogDB;
     }
 
@@ -28,7 +28,6 @@ public class TourLogServiceImpl implements TourLogService{
     public TourLog updateTourLog(TourLog tourlog){
         //editLogViewModel.setTourLog(tourLogListItems.getSelectionModel().getSelectedItem());
         var tourLogDB = tourLogDAO.update(tourlog);
-        logger.info("TourLog with ID: " + tourLogDB.getId() + " updated!");
         return tourLogDB;
     }
 
@@ -47,8 +46,9 @@ public class TourLogServiceImpl implements TourLogService{
         return tourLogDAO.getAll(tour.getId());
     }
 
-
+    @Override
     public ArrayList<TourLog> getAllTourLogs() {
         return tourLogDAO.getAllLogs();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.semesterproject.tourplanner.bl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.models.Tour;
@@ -8,6 +9,7 @@ import com.semesterproject.tourplanner.models.Tour;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class MapQuest {
     private static final LoggerWrapper logger = LoggerFactory.getLogger(MapQuest.class);
@@ -37,17 +39,27 @@ public class MapQuest {
     private void getDirections(String start, String destination) throws MapException {
         try {
             String json = HTTPHelper.httpGetJsonString("https://www.mapquestapi.com/directions/v2/route?key="+ ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key")+"&from="+start+"&to="+destination+"&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false");
-            //System.out.println(json);
             this.calculatedDistance = JSONHelper.getDoubleFromJson(json, "distance");
             this.calculatedTime = timeInMinutes(JSONHelper.getStringFromJson(json, "formattedTime"));
+            //System.out.println(getNarratives(json));
             logger.info("time: " + this.calculatedTime);
             logger.info("distance: " + this.calculatedDistance);
-            //set time and distance in db automatically?
 
             this.sessionID = JSONHelper.getStringFromJson(json, "sessionId");
         }catch (IOException e){
             throw new MapException(e.getMessage());
         }
+    }
+
+    public static List<String> getNarratives(String start, String destination) throws JsonProcessingException {
+        String json = null;
+        try {
+            json = HTTPHelper.httpGetJsonString("https://www.mapquestapi.com/directions/v2/route?key="+ ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key")+"&from="+start+"&to="+destination+"&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return JSONHelper.getListFromJson(json);
     }
 
     private Image getMap(String size) throws MapException {
@@ -57,11 +69,6 @@ public class MapQuest {
             throw new MapException(e.getMessage());
         }
     }
-
-    /*private double intToDouble(Integer integerNum){
-        return Double.valueOf(integerNum);
-    }*/
-
 
     private int timeInMinutes(String time){
         int minutes = 0;
@@ -82,9 +89,7 @@ public class MapQuest {
 
     public static Boolean testLocation(String start) throws MapException {
         try {
-            //String json = HTTPHelper.httpGetJsonString("https://www.mapquestapi.com/directions/v2/route?key=" + ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key") + "&from=" + start + "&to=" + destination + "&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false");
             String json = HTTPHelper.httpGetJsonString("http://www.mapquestapi.com/search/v2/radius?maxMatches=4&key=" + ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key") + "&origin=" + start);
-            System.out.println(json);
             if(json.contains("hostedData")) {
                 System.out.println("false");
                 return false;
@@ -94,6 +99,7 @@ public class MapQuest {
         }
         return true;
     }
+
 }
 
 

@@ -66,7 +66,6 @@ public class ToursOverviewModel {
     }
 
 
-
     public void addNewTour() {
         Tour t = NewTour.getInstance().getCreateTour();
 

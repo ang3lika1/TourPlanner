@@ -10,15 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class TourTest {
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourTest.class);
     private Tour tour;
-    private javafx.scene.image.Image img;
 
     @BeforeEach
     void setUp() {
         tour = new Tour("testName", "testDescription", "Wien", "Linz", "testTransType",230,60,0);
-        img = new Image("C:\\Users\\User1\\Documents\\alles_Semester_4\\SWEN2\\TourPlanner\\TourPlannerMap\\testName.jpg");
     }
 
-    @Test
+    /*@Test
     void setDistanceInvalid() {
         try{
             tour.setDistance(-100);
@@ -28,7 +26,7 @@ class TourTest {
         }catch (Exception e){
             fail("wrong exception thrown for setDistance() with negative value");
         }
-    }
+    }*/
 
     @Test
     void setDistance() {
@@ -37,19 +35,6 @@ class TourTest {
         assertEquals(expResult, tour.getDistance());
     }
 
-    @Test
-    void getImage(){
-        Image expResult = img;
-        assertEquals(expResult, tour.getImage());
-    }
-
-    @Test
-    void getLog() {
-    }
-
-    @Test
-    void setLog() {
-    }
 
     @Test
     void testToString() {

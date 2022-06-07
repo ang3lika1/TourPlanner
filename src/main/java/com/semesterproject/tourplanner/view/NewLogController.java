@@ -1,15 +1,13 @@
 package com.semesterproject.tourplanner.view;
 
-import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 import com.semesterproject.tourplanner.viewmodels.NewLogViewModel;
-import com.semesterproject.tourplanner.viewmodels.NewTour;
 import com.semesterproject.tourplanner.viewmodels.NewTourLog;
-import com.semesterproject.tourplanner.viewmodels.NewTourViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -17,8 +15,6 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 public class NewLogController {
-    @FXML
-    public TextField difficultyField;
     @FXML
     public Button createButton;
     @FXML
@@ -31,7 +27,10 @@ public class NewLogController {
     public DatePicker dateField;
 
     private final NewLogViewModel newLogViewModel;
+    @FXML
     public TextField distanceField;
+    @FXML
+    public ComboBox difficultyCombo;
 
     public NewLogController(NewLogViewModel newLogViewModel) {
         this.newLogViewModel = newLogViewModel;
@@ -56,7 +55,9 @@ public class NewLogController {
     }
 
     public void submit(ActionEvent actionEvent) {
-        TourLog tourLog = new TourLog(dateField.getValue(),commentField.getText(),difficultyField.getText(),Integer.parseInt(timeField.getText()),Integer.parseInt(ratingField.getText()),Integer.parseInt(distanceField.getText()));
+        String diff = (String) difficultyCombo.getSelectionModel().getSelectedItem();
+
+        TourLog tourLog = new TourLog(dateField.getValue(),commentField.getText(), diff,Integer.parseInt(timeField.getText()),Integer.parseInt(ratingField.getText()),Integer.parseInt(distanceField.getText()));
         NewTourLog.getInstance().setCreateTourLog(tourLog);
         NewTourLog.getInstance().setCancelled(false);
 

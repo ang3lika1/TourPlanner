@@ -11,29 +11,27 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class TourLogDAO implements DAOLog{
-    static Connection connection = Database.getInstance().getConnection();
-    static PreparedStatement insert = null;
-    static PreparedStatement select = null;
-    static PreparedStatement delete = null;
-    static PreparedStatement update = null;
-    private static TourLogDAO instance = null;
+public class TourLogDAO implements DAO<TourLog>{
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourLogDAO.class);
+    PreparedStatement insert, select, delete, update;
+    Connection connection ;
 
-    static{
-        TourLogDAO.instance = new TourLogDAO();
-    }
-    public static TourLogDAO getInstance() {
-        return instance;
+
+    public TourLogDAO() {
+        connection = Database.getInstance().getConnection();
+         insert = null;
+         select = null;
+         delete = null;
+         update = null;
     }
 
     @Override
-    public Optional get(int id) {
+    public Optional<TourLog> get(int id) {
         return Optional.empty();
     }
 
     @Override
-    public ArrayList<TourLog> getAll(int tourId) {
+    public ArrayList<TourLog> getAll(Integer tourId) {
         ArrayList<TourLog> allTourLogs= new ArrayList<>();
         try {
             select = null;
@@ -65,7 +63,6 @@ public class TourLogDAO implements DAOLog{
         return null;
     }
 
-    @Override
     public ArrayList<TourLog> getAllLogs() {
         ArrayList<TourLog> allTourLogs= new ArrayList<>();
         try {
@@ -142,7 +139,6 @@ public class TourLogDAO implements DAOLog{
         }
     }
 
-    @Override
     public void deleteAll(Tour tour) {
         try{
             delete = null;

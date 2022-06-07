@@ -1,39 +1,50 @@
 package com.semesterproject.tourplanner.bl;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import com.semesterproject.tourplanner.models.Tour;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class JSONHelper {
 
-    private static JsonObject getJsonObj(String json){
-        return new Gson().fromJson(json, JsonObject.class);
-    }
-
-    public static String getStringFromJson(String json, String gets){
-        return getJsonObj(json).get("route").getAsJsonObject().get(gets).getAsString();
-    }
-
-    public static int getIntFromJson(String json, String gets){
-        return getJsonObj(json).get("route").getAsJsonObject().get(gets).getAsInt();
-    }
-
-    public static double getDoubleFromJson(String json, String gets){
-        return getJsonObj(json).get("route").getAsJsonObject().get(gets).getAsDouble();
+    private static JsonNode getJsonObj(String json) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readTree(json);
     }
 
 
-    public static void getJsonFromObj(Object obj , FileWriter writer){
-        new Gson().toJson(obj, writer);
+    public static String getStringFromJson(String json, String gets) throws JsonProcessingException {
+        return getJsonObj(json).get("route").get(gets).asText();
     }
 
-    public static ArrayList<Tour> getToursFromJson(FileReader reader){
-        return new Gson().fromJson(reader, new TypeToken<ArrayList<Tour>>() {}.getType());
+    public static List<String> getListFromJson(String json) throws JsonProcessingException {
+       List<String> narratives = new ArrayList<>();
+        JsonFactory jsonFactory = new JsonFactory();
+        ObjectMapper objectMapper = new ObjectMapper(jsonFactory);
+
+        JsonNode arrayNode = objectMapper.readTree(json).get("route").get("legs");
+        if (arrayNode.isArray()) {
+            for (JsonNode jsonNode : arrayNode) {
+                JsonNode maneuversNode = jsonNode.get("maneuvers");
+                for (JsonNode narNode : maneuversNode) {
+                    String narrativeFieldNode = narNode.get("narrative").asText();
+                    narratives.add(narrativeFieldNode);
+                }
+            }
+        }
+            return narratives;
+    }
+
+    public static int getIntFromJson(String json, String gets) throws JsonProcessingException {
+        return getJsonObj(json).get("route").get(gets).asInt();
+    }
+
+    public static double getDoubleFromJson(String json, String gets) throws JsonProcessingException {
+        return getJsonObj(json).get("route").get(gets).asDouble();
     }
 
 }
