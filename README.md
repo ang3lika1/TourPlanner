@@ -114,5 +114,5 @@ Database runs in Docker Container
 | unique feature | 2 |
 | mapQuest API, json | 12 | 
 | Unit Tests | 5 | 
-| Debugging and creating hand over | 4 | 
+| Debugging and finalizing | 4 | 
 
