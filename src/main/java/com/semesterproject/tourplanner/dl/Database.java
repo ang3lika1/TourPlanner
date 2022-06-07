@@ -1,30 +1,33 @@
 package com.semesterproject.tourplanner.dl;
 
+import com.semesterproject.tourplanner.bl.ConfigHelper;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class Database {
-    public static Database instance = null;
+    private static Database instance = null;
     protected String connectionString;
     protected Connection connection;
 
-    protected Database() {
+    private Database() {
         try {
-            this.connectionString = "jdbc:postgresql://localhost:5432/postgres";
-            this.connection = DriverManager.getConnection(connectionString, "postgres", "mysecretpassword");
+            this.connectionString = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "db", "url");
+            this.connection = DriverManager.getConnection(connectionString, ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "db", "user"), ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "db", "pw"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public static Database getInstance() {
+        if(instance==null){
+            instance= new Database();
+        }
         return instance;
     }
+
     public Connection getConnection() {
         return connection;
-    }
-
-    static {
-        Database.instance = new Database();
     }
 }
 

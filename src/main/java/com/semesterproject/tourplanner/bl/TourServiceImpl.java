@@ -14,16 +14,19 @@ public class TourServiceImpl implements TourService{
     private static TourDAO tourDAO;
     private static TourLogServiceImpl tourLogServiceImpl;
     private static final LoggerWrapper logger = LoggerFactory.getLogger(TourServiceImpl.class);
-    private ExceptionHelper exceptionHelper;
 
     public TourServiceImpl() {
-        tourDAO = TourDAO.getInstance();
+        tourDAO = new TourDAO();
+        tourLogServiceImpl = new TourLogServiceImpl();
+    }
+    public TourServiceImpl(TourDAO tourDAO) {
+        this.tourDAO = tourDAO;
         tourLogServiceImpl = new TourLogServiceImpl();
     }
 
     @Override
     public ArrayList<Tour> getAllTours() {
-        return tourDAO.getAll();
+        return tourDAO.getAll(null);
     }
 
     @Override
@@ -42,7 +45,6 @@ public class TourServiceImpl implements TourService{
             Tour tourDB;
             tourDB = tourDAO.create(tour);
 
-            logger.info("new Tour with ID: " + tourDB.getId() + " created!");
             return tourDB;
         }else{
             throw new Exception("Tour with this name already exists.");
@@ -70,6 +72,7 @@ public class TourServiceImpl implements TourService{
         }
     }
 
+    @Override
     public Boolean isUnique(String tourname){
         try {
             return tourDAO.checkUnique(tourname);
@@ -83,7 +86,6 @@ public class TourServiceImpl implements TourService{
     public Tour updateTour(Tour tour){
         var tourDB = tourDAO.update(tour);
         //tourDB.setId(tourDAO.getID(tourDB));
-        logger.info("Tour with ID: " + tourDB.getId() + " updated!");
         return tourDB;
     }
 
@@ -93,7 +95,6 @@ public class TourServiceImpl implements TourService{
         int deletedTour = tour.getId();
         tourDAO.delete(tour);
         //FileHelper.delFile(getMapImgPath(tour.getName()));
-        logger.info("Tour with ID: " + deletedTour + " deleted!");
     }
 
     public void removeTourImg(Tour tour){
@@ -103,7 +104,6 @@ public class TourServiceImpl implements TourService{
 
 
     public static String getMapImgPath(String name){
-        //logger.info("map created at: " + ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") + name + ".jpg");
         return ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") + name + ".jpg";
     }
 

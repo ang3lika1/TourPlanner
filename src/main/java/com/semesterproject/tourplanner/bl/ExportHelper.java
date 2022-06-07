@@ -1,5 +1,6 @@
 package com.semesterproject.tourplanner.bl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
 import javafx.collections.FXCollections;
@@ -11,6 +12,7 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ExportHelper {
@@ -91,5 +93,16 @@ public class ExportHelper {
         inFile.close();
 
         return importedTour;
+    }
+
+    public static void downloadManeuver(Tour tour) throws FileNotFoundException, JsonProcessingException {
+        String file = chooseFile("download");
+        PrintWriter out = new PrintWriter(file + ".txt");
+
+        for (String line : MapQuest.getNarratives(tour.getStart(), tour.getDestination())) {
+            System.out.println(line);
+            out.println(line);
+        }
+        out.close();
     }
 }

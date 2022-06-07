@@ -13,6 +13,8 @@ public interface TourService {
 
     Tour createImportedTour(Tour tour) throws Exception;
 
+    Boolean isUnique(String tourname);
+
     Tour updateTour(Tour tour);
     void removeTour(Tour tour);
 }

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class ReportHelper {
     //private static final LoggerWrapper logger = LoggerFactory.getLogger(ReportHelper.class);
     private Tour tour;
-    //private String LOREM_IPSUM_TEXT;
     private String MAPS_PNG;
     private String TARGET_PDF;
     private String target_pdf_summary;
@@ -31,10 +30,8 @@ public class ReportHelper {
 
     public ReportHelper(Tour tour) throws FileNotFoundException {
         this.tour = tour;
-        //LOREM_IPSUM_TEXT = "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        MAPS_PNG = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") + tour.getName() + ".jpg";
+       MAPS_PNG = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "path") + tour.getName() + ".jpg";
         TARGET_PDF =  ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "report", "path") + tour.getName() + "_summary.pdf";
-        //target_pdf_summary = ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "report", "path") + "summary.pdf";
     }
 
     public ReportHelper() throws FileNotFoundException {

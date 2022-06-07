@@ -42,7 +42,6 @@ public class EditLogViewModel {
 
     public void updateLog(){
         if( !isInitValue ) {
-         //SET date=?, comment=?, difficulty=?, total_time=?, rating=?, distance=?
             tourLog.setDate(date.get());
             tourLog.setComment(comment.get());
             tourLog.setDifficulty(difficulty.get());

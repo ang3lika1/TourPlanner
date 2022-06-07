@@ -1,5 +1,6 @@
 package com.semesterproject.tourplanner.bl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
 import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import com.semesterproject.tourplanner.models.Tour;
@@ -25,6 +26,11 @@ class MapQuestTest {
 
 
     @Test
+    void getNarratives() throws JsonProcessingException {
+        mapQuest.getNarratives("wien", "horn");
+    }
+
+    @Test
     void getCalculatedTime() {
         assertEquals(mapQuest.getCalculatedDistance(),113.913);
     }
@@ -36,7 +42,7 @@ class MapQuestTest {
 
 
     @Test
-    void testLocations() {
+    void testLocation() {
         try {
             assertEquals(mapQuest.testLocation("linz"),true);
         } catch (MapException e) {

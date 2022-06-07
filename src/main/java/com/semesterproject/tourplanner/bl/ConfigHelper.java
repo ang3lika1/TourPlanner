@@ -1,11 +1,14 @@
 package com.semesterproject.tourplanner.bl;
 
+import com.semesterproject.tourplanner.bl.Logging.LoggerFactory;
+import com.semesterproject.tourplanner.bl.Logging.LoggerWrapper;
 import org.ini4j.Wini;
 import java.io.File;
 import java.io.IOException;
 
 public class ConfigHelper {
     public static final String CONFIG_INI = "config.ini"; //located at Tourplanner folder
+    private static final LoggerWrapper logger = LoggerFactory.getLogger(ConfigHelper.class);
 
     //reads int from config.ini
     public static int getIniInt(String fileName, String sectionName, String optionName){
@@ -13,7 +16,7 @@ public class ConfigHelper {
         try {
             ini = new Wini(new File(fileName));
         } catch (IOException e) {
-            LogHelper.error(e.getMessage(), e.getClass().getName());
+            logger.error(e.getMessage());
         }
         assert ini != null;
         return ini.get(sectionName, optionName, int.class);
@@ -25,7 +28,7 @@ public class ConfigHelper {
         try {
             ini = new Wini(new File(fileName));
         } catch (IOException e) {
-            LogHelper.error(e);
+            logger.error(e.getMessage());
         }
         assert ini != null;
         return ini.get(sectionName, optionName, String.class);
@@ -40,7 +43,7 @@ public class ConfigHelper {
             ini.put(sectionName, optionName, value);
             ini.store();
         } catch (IOException e) {
-            LogHelper.error(e.getMessage(), e.getClass().getName());
+           logger.error(e.getMessage());
         }
     }
 
@@ -52,7 +55,7 @@ public class ConfigHelper {
             ini.put(sectionName, optionName, value);
             ini.store();
         } catch (IOException e) {
-            LogHelper.error(e);
+            logger.error(e.getMessage());
         }
     }
 
