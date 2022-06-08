@@ -56,13 +56,15 @@ public class EditLogViewModel {
 
     public void setTourLog(TourLog tourLog) {
         isInitValue = true;
-        this.tourLog=tourLog;
-        difficulty.setValue(tourLog.getDifficulty() );
-        rating.setValue(tourLog.getRating());
-        distance.setValue(tourLog.getDistance());
-        comment.setValue(tourLog.getComment());
-        date.setValue(tourLog.getDate());
-        totalTime.setValue(tourLog.getTotalTime());
-        isInitValue = false;
+        if(tourLog!=null) {
+            this.tourLog = tourLog;
+            difficulty.setValue(tourLog.getDifficulty());
+            rating.setValue(tourLog.getRating());
+            distance.setValue(tourLog.getDistance());
+            comment.setValue(tourLog.getComment());
+            date.setValue(tourLog.getDate());
+            totalTime.setValue(tourLog.getTotalTime());
+            isInitValue = false;
+        }
     }
 }

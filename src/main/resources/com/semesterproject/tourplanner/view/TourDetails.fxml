@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.semesterproject.tourplanner.view.TourDetailsController">
+<VBox prefHeight="844.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.semesterproject.tourplanner.view.TourDetailsController">
     <!--<AnchorPane fx:id="anchorPaneAll" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">-->
     <ToolBar>
         <Label text="%MediaDetails_Name" />
@@ -26,7 +26,7 @@
                 <ImageView fx:id="mapImg" />
             </Tab>
             <Tab text="%MediaDetails_Tab_Description">
-                <AnchorPane fx:id="anchorPaneDetails" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+                <AnchorPane fx:id="anchorPaneDetails" prefHeight="409.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
                     <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="214.0" layoutY="14.0" prefHeight="17.0" prefWidth="170.0" text="Tour Details" textFill="#9c4d9e" AnchorPane.topAnchor="14.0">
                         <font>
                             <Font name="System Bold" size="19.0" />

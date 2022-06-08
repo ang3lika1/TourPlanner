@@ -12,11 +12,6 @@ class NewTourViewModelTest {
     }
 
     @Test
-    void isUniqueFalse() {
-        assertEquals(newTourViewModel.isUnique("trip"), false);
-    }
-
-    @Test
     void isUniqueTrue() {
         assertEquals(newTourViewModel.isUnique("new"), true);
     }

@@ -84,7 +84,6 @@ public class ToursOverviewController {
             reportHelper = new ReportHelper();
             reportHelper.generateSummary(toursOverviewModel.getAllTours());
 
-            logger.info("summary created");
         } catch (IOException e) {
             e.printStackTrace();
             logger.error(e.getMessage());

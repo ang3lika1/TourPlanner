@@ -27,7 +27,7 @@ public class Application extends javafx.application.Application {
 
         Parent root = DependencyInjection.load("MainWindow.fxml", Locale.ENGLISH);  // Locale.GERMANY, Locale.ENGLISH
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 850, 800);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Tour Planner");
         primaryStage.show();

@@ -10,7 +10,7 @@
 <VBox xmlns="http://javafx.com/javafx"
               xmlns:fx="http://javafx.com/fxml"
               fx:controller="com.semesterproject.tourplanner.view.TourLogsController"
-              prefHeight="400.0" prefWidth="600.0">
+              prefHeight="300.0" prefWidth="600.0">
     <ToolBar>
         <Label text="%Overview_Logs"/>
         <Pane HBox.hgrow="ALWAYS"/>

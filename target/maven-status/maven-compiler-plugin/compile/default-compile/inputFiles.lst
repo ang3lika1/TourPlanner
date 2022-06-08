@@ -10,7 +10,6 @@ C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\module
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\bl\Logging\LoggerWrapperImpl.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\dl\TourDAO.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\bl\ExportHelper.java
-C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\dl\DAOLog.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\bl\MapException.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\bl\MapQuest.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\viewmodels\EditLogViewModel.java
@@ -25,7 +24,6 @@ C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\se
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\viewmodels\MainWindowViewModel.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\view\NewTourController.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\viewmodels\NewTour.java
-C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\Controller.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\models\TourLog.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\bl\Logging\InitializedState.java
 C:\Users\User1\Documents\alles_Semester_4\SWEN2\TourPlanner\src\main\java\com\semesterproject\tourplanner\view\NewLogController.java
