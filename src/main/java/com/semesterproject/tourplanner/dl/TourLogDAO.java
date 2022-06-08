@@ -114,7 +114,6 @@ public class TourLogDAO implements DAO<TourLog>{
             if (result.next()) {
                 int id = result.getInt(1);
                 tourLog.setId(id);
-                logger.info("id returned: "+id);
             }
             insert.close();
             return tourLog;

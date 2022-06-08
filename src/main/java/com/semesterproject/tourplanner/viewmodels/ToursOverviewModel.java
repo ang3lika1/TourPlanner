@@ -26,7 +26,6 @@ public class ToursOverviewModel {
     {
         tourServiceImpl = new TourServiceImpl();
         tourLogServiceImpl = new TourLogServiceImpl();
-        //setTours(TourDAO.getInstance().getAll());
         setTours(tourServiceImpl.getAllTours());
     }
 

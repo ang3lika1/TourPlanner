@@ -38,7 +38,7 @@ public class TourServiceImpl implements TourService{
                 tour.setDistance(mapquest.getCalculatedDistance());
                 tour.setTime(mapquest.getCalculatedTime());
             }catch (MapException e){
-                logger.fatal(e.getMessage());
+                logger.error(e.getMessage());
                 throw e;
             }
 
@@ -58,14 +58,14 @@ public class TourServiceImpl implements TourService{
                 MapQuest mapquest = new MapQuest(tour);
                 tour.setMap(mapquest);
             }catch (MapException e){
-                logger.fatal(e.getMessage());
+                logger.error(e.getMessage());
                 throw e;
             }
 
             Tour tourDB;
             tourDB = tourDAO.create(tour);
 
-            logger.info("new Tour with ID: " + tourDB.getId() + " created!");
+            //logger.info("new Tour with ID: " + tourDB.getId() + " created!");
             return tourDB;
         }else{
             throw new Exception("Tour with this name already exists.");
@@ -77,16 +77,14 @@ public class TourServiceImpl implements TourService{
         try {
             return tourDAO.checkUnique(tourname);
         } catch (SQLException e) {
-            logger.warn(e.getMessage());
+            logger.info(e.getMessage());
         }
         return null;
     }
 
     @Override
     public Tour updateTour(Tour tour){
-        var tourDB = tourDAO.update(tour);
-        //tourDB.setId(tourDAO.getID(tourDB));
-        return tourDB;
+        return tourDAO.update(tour);
     }
 
     @Override

@@ -3,8 +3,6 @@ package com.semesterproject.tourplanner.bl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.semesterproject.tourplanner.models.Tour;
 import com.semesterproject.tourplanner.models.TourLog;
-import javafx.collections.FXCollections;
-import javafx.scene.control.ProgressBar;
 
 import javax.swing.*;
 import java.io.FileNotFoundException;
@@ -12,7 +10,6 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 
 public class ExportHelper {

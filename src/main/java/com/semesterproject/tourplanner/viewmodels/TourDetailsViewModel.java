@@ -84,7 +84,7 @@ public class TourDetailsViewModel {
 
     public void setTourLogViewModel(TourLogViewModel tourLogViewModel) {
         this.tourLogViewModel = tourLogViewModel;
-        if(isInitValue=false)
+        if(!isInitValue)
             this.tourLogViewModel.addSelectionChangedListener(this::selectTourLog);
     }
 
@@ -147,6 +147,7 @@ public class TourDetailsViewModel {
 
     public void setTourManeuvers(Tour tourModel) {
         try {
+            if(tourModel!=null)
             maneuvers.set(listToString(MapQuest.getNarratives(tourModel.getStart(), tourModel.getDestination())));
         } catch (JsonProcessingException e) {
            logger.error(e.getMessage());

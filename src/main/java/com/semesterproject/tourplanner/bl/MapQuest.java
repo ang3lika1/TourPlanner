@@ -41,7 +41,6 @@ public class MapQuest {
             String json = HTTPHelper.httpGetJsonString("https://www.mapquestapi.com/directions/v2/route?key="+ ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key")+"&from="+start+"&to="+destination+"&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false");
             this.calculatedDistance = JSONHelper.getDoubleFromJson(json, "distance");
             this.calculatedTime = timeInMinutes(JSONHelper.getStringFromJson(json, "formattedTime"));
-            //System.out.println(getNarratives(json));
             logger.info("time: " + this.calculatedTime);
             logger.info("distance: " + this.calculatedDistance);
 
@@ -56,7 +55,7 @@ public class MapQuest {
         try {
             json = HTTPHelper.httpGetJsonString("https://www.mapquestapi.com/directions/v2/route?key="+ ConfigHelper.getIniString(ConfigHelper.getConfigIni(), "map", "key")+"&from="+start+"&to="+destination+"&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(String.valueOf(new MapException(e.getMessage())));
         }
 
         return JSONHelper.getListFromJson(json);

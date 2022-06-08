@@ -8,7 +8,6 @@ com\semesterproject\tourplanner\bl\MapQuest.class
 com\semesterproject\tourplanner\viewmodels\NewTourLog.class
 com\semesterproject\tourplanner\viewmodels\TourLogViewModel$SelectionChangedListener.class
 com\semesterproject\tourplanner\bl\ConfigHelper.class
-com\semesterproject\tourplanner\Controller.class
 com\semesterproject\tourplanner\bl\Logging\UninitializedState.class
 com\semesterproject\tourplanner\bl\Logging\LoggerStateBase.class
 com\semesterproject\tourplanner\bl\Logging\InitializedState.class
@@ -18,7 +17,6 @@ com\semesterproject\tourplanner\bl\TourLogService.class
 com\semesterproject\tourplanner\enums\Difficulty.class
 com\semesterproject\tourplanner\view\SearchBarController.class
 com\semesterproject\tourplanner\DependencyInjection.class
-com\semesterproject\tourplanner\dl\DAOLog.class
 com\semesterproject\tourplanner\viewmodels\NewLogViewModel.class
 com\semesterproject\tourplanner\viewmodels\TourLogViewModel.class
 com\semesterproject\tourplanner\models\TourLog.class

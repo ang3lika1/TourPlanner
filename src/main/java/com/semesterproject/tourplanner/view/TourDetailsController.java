@@ -1,7 +1,6 @@
 package com.semesterproject.tourplanner.view;
 
 import com.semesterproject.tourplanner.viewmodels.TourDetailsViewModel;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -30,9 +29,6 @@ public class TourDetailsController {
     public TextArea maneuvers;
     public TextField popularityField;
     public TextField childFriendlinessField;
-
-
-    private Button saveButton;
 
 
     public TourDetailsController(TourDetailsViewModel tourDetailsViewModel) {
@@ -68,11 +64,6 @@ public class TourDetailsController {
         distanceField.setEditable(true);
         timeField.setEditable(true);
 
-        /*saveButton = new Button("save");
-        saveButton.setLayoutX(500);
-        saveButton.setLayoutY(400);
-        saveButton.setOnAction(e->updateTour());
-        anchorPaneDetails.getChildren().add(saveButton);*/
         editButton.setText("save");
         editButton.setOnAction(e->updateTour());
     }
@@ -85,7 +76,7 @@ public class TourDetailsController {
         descriptionTextField.setEditable(false);
         distanceField.setEditable(false);
         timeField.setEditable(false);
-        //anchorPaneDetails.getChildren().remove(saveButton);
+
         editButton.setText("edit");
         editButton.setOnAction(e->editTour());
     }

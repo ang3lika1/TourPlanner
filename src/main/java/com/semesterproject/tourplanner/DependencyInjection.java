@@ -26,8 +26,4 @@ public class DependencyInjection {
                 controllerClass-> ControllerFactory.getInstance().create(controllerClass)
         );
     }
-    /*public static FXMLLoader getLoader(String location, Locale locale) {
-        FXMLLoader fxmlLoader = new FXMLLoader(DependencyInjection.class.getResource("MainWindow.fxml"));
-        return fxmlLoader;
-    }*/
 }

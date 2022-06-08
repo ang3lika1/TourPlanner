@@ -20,7 +20,7 @@ class MapQuestTest {
         try {
             this.mapQuest = new MapQuest(tour);
         } catch (MapException e) {
-            logger.fatal(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
