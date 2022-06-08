@@ -101,6 +101,24 @@ Database runs in Docker Container
    Test Classes for Services (Tour/ TourLog) with mocks for DAO to avoid writing actual data to the real database.
    MockitoExtension used.
  
+ ## UX/ Library Decisions
+ minimalistic, simple design for good User Learnability
+ ### Validation:
+ controlsfx Validator - validates user input during creating new Tour or Tour Log and shows appropriate error message.
+ 
+ Checks for:
+ * required fields
+ * unique tour-name (create tour)
+ * valid location (create tour)
+ * number input (create log)
+ * positive number (create log)
+ 
+ ![image](https://user-images.githubusercontent.com/74720686/172647927-7e0deeb8-c675-4ed4-a34c-fb9822934b66.png)
+ 
+ ### PDF Generation:
+ itext7
+
+ 
  
  ## Tracked Time
 | subject | time in hours | 
